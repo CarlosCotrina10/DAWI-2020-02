@@ -1,0 +1,29 @@
+@charset "ISO-8859-1";
+/*!
+ * Start Bootstrap - Shop Homepage (https://startbootstrap.com/templates/shop-homepage)
+ * Copyright 2013-2020 Start Bootstrap
+ * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
+ */
+ html {
+  position: relative;
+  min-height: 100%;
+}
+ 
+body {
+	padding-top: 56px;
+   	margin-bottom: 270px;
+}
+
+footer {
+	bottom: 0;
+    width: 100%;
+    position: absolute;
+	height: 270px;
+}
+
+.navbar-default {
+  background-color:teal;
+  background-image: none;
+  background-repeat: no-repeat;
+ }
+ 
