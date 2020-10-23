@@ -1,8 +1,9 @@
-<%@page import="beans.UsuarioDTO"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<%@ taglib uri="/WEB-INF/libreria.tld"  prefix="ct"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<%@ taglib uri="/struts-bootstrap-tags" prefix="sb" %>
+<%@ taglib uri="/struts-jquery-tags" prefix="sj"%>
 
 <html lang="en">
 
@@ -11,13 +12,15 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<title>Producto - ${p.nomprod }</title>
+<title>Producto - </title>
 
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="css/shop.css" rel="stylesheet">
 <link href="css/cart.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<s:head/>
+	<sj:head/>
 </head>
 
 <body>
@@ -32,37 +35,32 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<%
-						UsuarioDTO u = (UsuarioDTO) request.getSession().getAttribute("usuario");
-						if (u == null) {
-					%>
-					<li class="nav-item"><a class="nav-link" href="loginRegistro.jsp">Iniciar
-							Sesion</a></li>
-					<%
-						} else {
-					%>
-					<li class="nav-item dropdown"><a
+					<s:if test="1==1"> <!-- si el usuario es null, regresar al login-->
+						<li class="nav-item"><a class="nav-link"
+						href="loginRegistro.jsp">Iniciar Sesion</a></li>
+					</s:if>
+					
+					<s:else>
+					
+						<s:if test=""> <!-- si el usuario es un cliente, tipo = 0 se dirige al loginregistro-->									
+						</s:if>
+						
+						<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false"> Bienvenido ${usuario.nombre} </a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<%
-								if (u.getIdTipo() == 1) {
-							%>
+						
+						<s:if test=""> <!-- si el usuario es un Admin, tipo = 1-->
 							<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a> <a
 								class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
 							<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
 							<div class="dropdown-divider"></div>
-
-							<%
-								}
-							%>
-
-							<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a>
+						</s:if>
+						
+						<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a>
 						</div></li>
-					<%
-						}
-					%>
+					</s:else>
 
 				</ul>
 				<a class="btn btn-success btn-sm ml-3" href="carrito.jsp"> <i
@@ -81,26 +79,26 @@
 
 				<h5 class="my-4">Categorias</h5>
 				<div class="list-group">
-					<ct:llenaTienda value="${p.idcategoria}"></ct:llenaTienda>
+<%-- 					<ct:llenaTienda value="${p.idcategoria}"></ct:llenaTienda> --%>
 				</div>
 
 			</div>
 			<div class="col-lg-9">
 				<div class="card mt-4">
 					<img class="card-img-top img-fluid"
-						src="img/imgs_700x400/${p.idprod}.jpg" alt="Not found">
+						src="img/imgs_700x400/<s:property value="p.idProd"/>.jpg" alt="Not found">
 					<div class="card-body">
 						<div class="clearfix">
-							<h4 class="card-title float-left">${p.nomprod }</h4>
-							<h4 class="float-right">S/ ${p.precio }</h4>
+							<h4 class="card-title float-left" > <s:property value="p.nomProd"/> </h4> <!-- nombre -->
+							<h4 class="float-right">S/ <s:property value="p.precio"/></h4> <!-- precio -->
 						</div>
-						<p class="card-text">${p.descripcion }</p>
+						<p class="card-text"><s:property value="p.descripcion"/></p> <!-- descripcion -->
 						<!--  <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span> -->
-						<p class="card-text">Stock: ${p.stock }</p>
+						<p class="card-text">Stock: <s:property value="p.stock"/></p> <!-- stock -->
 						<form action="tiendaSer" method="post">
 							<div class="clearfix">
-								<input type="number" value="1" min="1" max="${p.stock}" step="1" name="cantidad"
-									class="form-control float-left col-lg-1 text-center" />
+								<input type="number" value="1" min="1" max="<s:property value="p.stock"/>" step="1" name="cantidad" 
+									class="form-control float-left col-lg-1 text-center" /><!-- max = "stock" -->
 								<button type="submit" class="btn btn-primary float-right"
 									name="btnes" value="a">Agregar al carro</button>
 							</div>
@@ -196,7 +194,6 @@
 	</footer>
 
 	<!-- Bootstrap core JavaScript -->
-	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>

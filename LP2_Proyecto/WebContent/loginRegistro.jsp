@@ -1,8 +1,9 @@
-<%@page import="beans.UsuarioDTO"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<%@ taglib uri="/WEB-INF/libreria.tld" prefix="ct"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<%@ taglib uri="/struts-bootstrap-tags" prefix="sb" %>
+<%@ taglib uri="/struts-jquery-tags" prefix="sj"%>
 
 <html lang="en">
 
@@ -17,7 +18,8 @@
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="css/cart.css" rel="stylesheet">
 <link href="css/shop.css" rel="stylesheet">
-
+<s:head/>
+<sj:head/>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type="text/css">
@@ -39,38 +41,30 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<%
-						UsuarioDTO u = (UsuarioDTO) request.getSession().getAttribute("usuario");
-						if (u == null) {
-					%>
-					<li class="nav-item"><a class="nav-link" href="loginRegistro.jsp">Iniciar
+					
+					<s:if test="1==1"> <!-- Usuario es null -->
+						<li class="nav-item"><a class="nav-link" href="loginRegistro.jsp">Iniciar
 							Sesion</a></li>
-					<%
-						} else {
-					%>
-					<li class="nav-item dropdown"><a
+					</s:if>
+					
+					<s:else> <!-- Usuario se logeo -->
+						<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false"> Bienvenido ${usuario.nombre} </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<%
-								if (u.getIdTipo() == 1) {
-							%>
-							<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a> <a
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">	
+											
+							<s:if test="1==0"> <!-- si el usuario es de tipo 1 --> 
+								<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a> <a
 								class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
-							<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
-							<div class="dropdown-divider"></div>
-
-							<%
-								}
-							%>
-
+								<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
+								<div class="dropdown-divider"></div>
+							</s:if>
+							
 							<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a>
 						</div></li>
-					<%
-						}
-					%>
-
+					</s:else>
+					
 				</ul>
 				<a class="btn btn-success btn-sm ml-3" href="carrito.jsp"> <i
 					class="fa fa-shopping-cart"></i> Cart <span
@@ -87,7 +81,7 @@
 				type="radio" name="tab" class="sign-up"><label for="tab-2"
 				class="tab">Registrar</label>
 			<div class="login-form">
-				<form action="crudUsu">
+				<form action="login" method="post">
 					<div class="sign-in-htm">
 						<div class="group">
 						<br>
@@ -95,22 +89,23 @@
 						<br>
 						<br>
 							<label for="user" class="label">Usuario</label> <input id="user"
-								type="text" name="txtUsuario" class="input" required="required">
+								type="text" name="u.usuario" class="input" required="required">
 						</div>
 						<div class="group">
 							<label for="pass" class="label">Contraseña</label> <input
-								id="pass" type="password" name="txtClave" class="input"
+								id="pass" type="password" name="u.clave" class="input"
 								data-type="password" required="required">
 						</div>
 						<br>
 						<div class="group">
+						<s:hidden name="p.idCategoria" value="-1"/>
 							<!--<button type="submit" class="btn btn-primary" name="btnes" value="v">Ingresar</button>-->
 							<input type="submit" class="button" name="btnes" value="Iniciar Sesion">
-						</div>
-						<p>${mensaje}</p>
-
+						</div>						
+						<s:actionmessage/>
+						<s:actionerror/>
 					</div>
-				</form>
+				</form>			
 				<form action="crudUsu">
 					<div class="sign-up-htm">
 						<div class="group">
@@ -200,7 +195,6 @@
 	</footer>
 
 	<!-- Bootstrap core JavaScript -->
-	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>

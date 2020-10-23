@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.mapper.ProductoMapper">
+	<!-- Para: int registrar(Producto p) -->
+	<insert id="registrar" parameterType="model.Producto" statementType="CALLABLE">
+		{CALL USP_registrarProducto(#{nomProd}, #{descripcion}, #{stock}, #{precio}, #{idCategoria}, #{estado})}
+	</insert>
+
+	<!-- Para: int actualizar(Producto p) -->
+	<update id="actualizar" parameterType="model.Producto" statementType="CALLABLE">
+		{CALL USP_actualizarProducto(#{nomProd}, #{descripcion}, #{stock}, #{precio}, #{idCategoria}, #{estado}, #{idProd})}
+	</update>
+
+	<!-- Para: int cambiarEstado(Producto p) CONSULTAR 2 PARAMETROS-->
+	<update id="cambiarEstado" parameterType="model.Producto" statementType="CALLABLE">
+		{CALL USP_cambiarEstadoProducto(#{estado}, #{idProd})}
+	</update>
+
+	<!-- Para: ArrayList<ProductoDTO> listado(Producto p) -->
+	<select id="listado" resultType="model.Producto" parameterType="model.Producto">
+		select * from tb_productos where estado = 1
+		<if test="idCategoria != -1">
+			and idCategoria = #{idCategoria}
+		</if>
+		<if test="estado != -1">
+			and estado = #{estado}
+		</if>
+	</select>
+
+	<!-- Para: ArrayList<Categoria> listadoCategoria() -->
+	<select id="listadoCategoria" resultType="model.Categoria" statementType="CALLABLE">
+		{CALL sp_listarCategoria()}
+	</select>
+
+	<!-- Para: Producto buscar(int cod) -->
+	<select id="buscar" parameterType="int" resultType="model.Producto" statementType="CALLABLE">
+		{CALL USP_buscarProducto(#{idProd})}
+	</select>
+</mapper>

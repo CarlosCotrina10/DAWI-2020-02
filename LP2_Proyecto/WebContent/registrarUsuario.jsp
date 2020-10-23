@@ -1,9 +1,9 @@
-<%@page import="beans.UsuarioDTO"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="/WEB-INF/libreria.tld" prefix="ct"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<%@ taglib uri="/struts-bootstrap-tags" prefix="sb"%>
+<%@ taglib uri="/struts-jquery-tags" prefix="sj"%>
 <html>
 <head>
 <meta name="viewport"
@@ -14,6 +14,8 @@
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="css/shop.css" rel="stylesheet">
 <link href="css/cart.css" rel="stylesheet">
+<s:head />
+<sj:head />
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
@@ -27,42 +29,36 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<%
-						UsuarioDTO u = (UsuarioDTO) request.getSession().getAttribute("usuario");
-						if (u == null) {
-							request.getRequestDispatcher("/loginRegistro.jsp").forward(request, response);
-					%>
-					<li class="nav-item"><a class="nav-link" href="loginRegistro.jsp">Iniciar
-							Sesion</a></li>
-					<%
-						} else {
-							if (u.getIdTipo() == 0) {
-								request.getSession().invalidate();
-								request.getRequestDispatcher("/loginRegistro.jsp").forward(request, response);
-							}
-					%>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-						role="button" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"> Bienvenido ${usuario.nombre} </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<%
-								if (u.getIdTipo() == 1) {
-							%>
-							<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a> <a
-								class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
-							<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
-							<div class="dropdown-divider"></div>
 
-							<%
-								}
-							%>
+					<s:if test="1==1">
+						<!-- si el usuario es null, regresar al login-->
+						<li class="nav-item"><a class="nav-link"
+							href="loginRegistro.jsp">Iniciar Sesion</a></li>
+					</s:if>
 
-							<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a>
-						</div></li>
-					<%
-						}
-					%>
+					<s:else>
+
+						<s:if test="">
+							<!-- si el usuario es un cliente, tipo = 0 se dirige al loginregistro-->
+						</s:if>
+
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> Bienvenido ${usuario.nombre} </a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+								<s:if test="">
+									<!-- si el usuario es un Admin, tipo = 1-->
+									<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a>
+									<a class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
+									<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
+									<div class="dropdown-divider"></div>
+								</s:if>
+
+								<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a>
+							</div></li>
+					</s:else>
 
 				</ul>
 			</div>
@@ -84,7 +80,7 @@
 						class="pl-0 h6">PRODUCTOS</span>
 				</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="listadoProductos.jsp">Listar</a>
+						<a class="dropdown-item" href="listadoProd?pro.idCategoria=-1&pro.estado=-1">Listar</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="registrarProducto.jsp">Registrar</a>
 					</div></li>
@@ -95,7 +91,7 @@
 						class="pl-0 h6">USUARIOS</span>
 				</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="listadoUsuarios.jsp">Listar</a>
+						<a class="dropdown-item" href="listadoUsuario?usu.idTipo=-1&usu.codDistrito=-1&usu.estado=-1">Listar</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="registrarUsuario.jsp">Registrar</a>
 					</div></li>
@@ -106,86 +102,76 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<h5 class="my-4">Filtros</h5>
-				<form action="crudUsu" method="post">
-				<div class="form-group">
-						<label for="exampleInputFecha1">Tipo: </label> <select
-							class="form-control" name="cboTipo">
-							<ct:llenaTipo value="${cboTip}" />
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="exampleInputFecha1">Distrito: </label> <select
-							class="form-control" name="cboDistrito">
-							<ct:llenaDistrito value="${cboDis}" />
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="exampleInputFecha1">Estado: </label> <select
-							class="form-control" name="cboEstado" id="exampleInputFecha1">
-							<ct:llenaEstado value="2" />
-						</select>
-					</div>
-					<button type="submit" class="btn btn-primary float-right"
-						name="btnes" value="l">Listar</button>
-				</form>
+				<s:form action="listadoUsuario" theme="bootstrap">
+					<s:url id="idTipo" action="listadoTipo" />
+					<sj:select label="Tipo de Usuario: " href="%{idTipo}" list="lstTipo" name="usu.idTipo"
+						listKey="idTipo" listValue="descripcion" headerKey="-1"
+						headerValue="Todos" cssClass="form-control" />
+					<s:url id="idDistrito" action="listadoDistrito" />
+					<sj:select label="Distrito: " href="%{idDistrito}" name="usu.codDistrito"
+						list="lstDistrito" listKey="codDistrito" listValue="nomDistrito"
+						headerKey="-1" headerValue="Todos los Distritos"
+						cssClass="form-control" />
+					<s:select label="Estado"
+						list="#{'-1':'Todos los estados','0':'Inactivo','1':'Activo' }"
+						name="usu.estado" cssClass="form-control" />
+					<s:submit value="Listar" cssClass="btn btn-primary float-right" />
+				</s:form>
 				<br> <br> <br>
 				<p>${mensaje}</p>
 			</div>
 			<div class="col-lg-9">
-			<br>
-				<form action="crudUsu" method="post">
-					<div class="form-group">
-						<label for="exampleInputNombre1">Codigo de usuario: </label> <input
-							type="text" class="form-control" id="exampleInputNombre1"
-							aria-describedby="emailHelp" placeholder="" name="txtCodigo"
-							readonly>
-					</div>
-					<div class="form-group">
-						<label for="exampleInputApellido1">Nombre: </label> <input
-							type="text" class="form-control" id="exampleInputApellido1"
-							placeholder="Ingrese nombre" pattern="[A-Za-z]{1,15}" required="required"
-							name="txtNombre"  value="${data.nombre}">
-					</div>
-					<div class="form-group">
-						<label for="exampleInputApellido1">Apellido: </label>
-						<input class="form-control" id="exampleInputApellido1"
-							placeholder="Ingrese la descripcion del producto"  value="${data.apellido}"
-							 name="txtApellido" pattern="[A-Za-z ]{1,30}" required="required">
-					</div>
-					<div class="form-group">
-						<label for="exampleInputFecha1">Distrito: </label> <select
-							class="form-control" name="cboDistrito" id="exampleInputFecha1">
-							<ct:llenaDistrito value="${data.codDistrito}" />
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="exampleInputApellido1">Usuario: </label>
-						<input class="form-control" id="exampleInputApellido1"
-							placeholder="Ingrese la descripcion del producto"  value="${data.usuario}"
-							name="txtUsuario" pattern="[A-Za-z@0-9]{1,30}" required="required">
-					</div>
-					<div class="form-group">
-						<label for="exampleInputApellido1">Clave: </label>
-						<input class="form-control" id="exampleInputApellido1"
-							placeholder="Ingrese la descripcion del producto"  value="${data.clave}"
-							name="txtClave" pattern="[A-Za-z@0-9]{1,30}" required="required">
-					</div>
-					<div class="form-group">
-						<label for="exampleInputFecha1">Tipo: </label> <select
-							class="form-control" name="cboTipo" id="exampleInputFecha1">
-							<ct:llenaTipo  value="${data.idTipo}"/>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="exampleInputFecha1">Estado: </label> <select
-							class="form-control" name="cboEstado" id="exampleInputFecha1">
-							<ct:llenaEstado value="${data.estado}" />
-						</select>
-					</div>
-
-					<button type="submit" class="btn btn-primary mb-3 float-right"
-						name="btnes" value="r">Registrar</button>
-				</form>
+				<br>
+				<s:form theme="bootstrap" action="crudUsua" id="dsf">
+					<s:textfield label="Nombre: " name="u.nombre"
+						placeholder="Ingrese su nombre" required="required"
+						pattern="[A-Za-z1-9 ]{1,15}" />
+					<s:textfield label="Apellido: " name="u.apellido"
+						placeholder="Ingrese su apellido" required="required"
+						pattern="[A-Za-z1-9 ]{1,25}" />
+					<s:div cssClass="row">
+						<s:div cssClass="col-md-6">
+							<s:url id="idDistrito" action="listadoDistrito" />
+							<sj:select label="Distrito: " href="%{idDistrito}"
+								list="lstDistrito" listKey="codDistrito" listValue="nomDistrito"
+								headerKey="-1" headerValue="Seleccione un Distrito"
+								cssClass="form-control" name="u.codDistrito"/>
+						</s:div>
+					</s:div>
+					<s:div cssClass="row">
+						<s:div cssClass="col-md-6">
+							<s:textfield label="Usuario: " name="u.usuario"
+								placeholder="Ingrese su usuario" required="required"
+								pattern="[A-Za-z1-9 ]{1,45}" />
+						</s:div>
+						<s:div cssClass="col-md-6">
+							<s:textfield label="Clave: " name="u.clave"
+								placeholder="Ingrese su clave" required="required"
+								type="password" pattern="[A-Za-z1-9 ]{1,12}" />
+						</s:div>
+					</s:div>
+					<s:div cssClass="row">
+						<s:div cssClass="col-md-6">
+							<s:url id="idTipo" action="listadoTipo" />
+							<sj:select label="Tipo: " href="%{idTipo}" list="lstTipo" name="u.idTipo"
+								listKey="idTipo" listValue="descripcion" headerKey="-1"
+								headerValue="Seleccione un Tipo" cssClass="form-control" />
+						</s:div>
+						<s:div cssClass="col-md-6">
+							<s:select label="Estado"
+								list="#{'-1':'Seleccione un Estado','0':'Inactivo','1':'Activo' }"
+								name="u.estado" cssClass="form-control" />
+						</s:div>
+					</s:div>
+					<s:div cssClass="row">
+						<s:div cssClass="col-md-12">
+							<s:submit value="Registrar" name="btn"
+								cssClass="btn btn-primary mb-3 float-right" />
+						</s:div>
+					</s:div>
+					<s:actionerror theme="bootstrap" />
+					<s:actionmessage theme="bootstrap" />
+				</s:form>				
 				<br>
 			</div>
 		</div>
@@ -242,7 +228,6 @@
 		</div>
 	</footer>
 
-	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

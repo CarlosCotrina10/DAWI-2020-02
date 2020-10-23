@@ -1,9 +1,9 @@
-<%@page import="beans.UsuarioDTO"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="/WEB-INF/libreria.tld" prefix="ct"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<%@ taglib uri="/struts-bootstrap-tags" prefix="sb" %>
+<%@ taglib uri="/struts-jquery-tags" prefix="sj"%>
 <html>
 <head>
 <meta name="viewport"
@@ -34,42 +34,33 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<%
-						UsuarioDTO u = (UsuarioDTO) request.getSession().getAttribute("usuario");
-						if (u == null) {
-							request.getRequestDispatcher("/loginRegistro.jsp").forward(request, response);
-					%>
-					<li class="nav-item"><a class="nav-link"
+				
+					<s:if test="1==1"> <!-- si el usuario es null, regresar al login-->
+						<li class="nav-item"><a class="nav-link"
 						href="loginRegistro.jsp">Iniciar Sesion</a></li>
-					<%
-						} else {
-							if (u.getIdTipo() == 0) {
-								request.getSession().invalidate();
-								request.getRequestDispatcher("/loginRegistro.jsp").forward(request, response);
-							}
-					%>
-					<li class="nav-item dropdown"><a
+					</s:if>
+					
+					<s:else>
+					
+						<s:if test=""> <!-- si el usuario es un cliente, tipo = 0 se dirige al loginregistro-->									
+						</s:if>
+						
+						<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false"> Bienvenido ${usuario.nombre} </a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<%
-								if (u.getIdTipo() == 1) {
-							%>
-							<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a>
-							<a class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
+						
+						<s:if test=""> <!-- si el usuario es un Admin, tipo = 1-->
+							<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a> <a
+								class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
 							<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
 							<div class="dropdown-divider"></div>
-
-							<%
-								}
-							%>
-
-							<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a>
+						</s:if>
+						
+						<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a>
 						</div></li>
-					<%
-						}
-					%>
+					</s:else>
 
 				</ul>
 			</div>

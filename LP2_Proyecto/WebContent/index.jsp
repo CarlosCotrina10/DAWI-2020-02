@@ -1,29 +1,33 @@
-<%@page import="beans.UsuarioDTO"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="/WEB-INF/libreria.tld"  prefix="ct"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<%@ taglib uri="/struts-bootstrap-tags" prefix="sb"%>
+<%@ taglib uri="/struts-jquery-tags" prefix="sj"%>
 
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
-	<title>Tienda - miTienda</title>
-	
-	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/shop.css" rel="stylesheet">
-	<link href="css/cart.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Tienda - miTienda</title>
+
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/shop.css" rel="stylesheet">
+<link href="css/cart.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<s:head/>
+<sj:head/>
 </head>
 
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
 		<div class="container">
-			<a class="navbar-brand py-0 my-0 by-0 h1" href="tiendaSer?btnes=l&cat=0"><span class="mb-0 h3">miTienda</span></a>
+			<a class="navbar-brand py-0 my-0 by-0 h1"
+				href="tiendaSer?btnes=l&cat=0"><span class="mb-0 h3">miTienda</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -31,38 +35,37 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<%
-						UsuarioDTO u = (UsuarioDTO) request.getSession().getAttribute("usuario");
-						if (u == null) {
-							%>
-								<li class="nav-item"><a class="nav-link" href="loginRegistro.jsp">Iniciar Sesion</a></li>
-							<%
-						} else {
-							%>
-								<li class="nav-item dropdown"><a
-								class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-								role="button" data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="false"> Bienvenido ${usuario.nombre} </a>
-								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<%
-									if (u.getIdTipo() == 1) {
-										%>
-											<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a> 
-											<a class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a> 
-											<a class="dropdown-item" href="reporteStock.jsp">Reportes</a> 
-											<div class="dropdown-divider"></div>
-											
-										<%
-									}
-								%>
-								
-								<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a> 
-								</div>
-								</li>
-							<%
-						}
-					%>
-					
+
+					<s:if test="1==1">
+						<!-- si el usuario es null, regresar al login-->
+						<li class="nav-item"><a class="nav-link"
+							href="loginRegistro.jsp">Iniciar Sesion</a></li>
+					</s:if>
+
+					<s:else>
+
+						<s:if test="">
+							<!-- si el usuario es un cliente, tipo = 0 se dirige al loginregistro-->
+						</s:if>
+
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> Bienvenido ${usuario.nombre} </a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+								<s:if test="">
+									<!-- si el usuario es un Admin, tipo = 1-->
+									<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a>
+									<a class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
+									<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
+									<div class="dropdown-divider"></div>
+								</s:if>
+
+								<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a>
+							</div></li>
+					</s:else>
+
 				</ul>
 				<a class="btn btn-success btn-sm ml-3" href="carrito.jsp"> <i
 					class="fa fa-shopping-cart"></i> Cart <span
@@ -80,13 +83,18 @@
 			<div class="col-lg-3" id="test">
 
 				<h5 class="my-4">Categorias</h5>
-				<div class="list-group">
-					<ct:llenaTienda value="${categoriaT}"></ct:llenaTienda>
-				</div>
+				<s:div cssClass="list-group">
+					<s:url id="idCateg" action="listadoCat" />
+					<sj:select label="Categorias" href="%{idCateg}" list="lstCategoria"
+						listKey="idCategoria" listValue="descripcion" headerKey="-1"
+						headerValue="Todas" name="pro.idCategoria"
+						cssClass="form-control" onChangeTopics=""/>					
+					
+				</s:div>
 
 			</div>
 			<!-- /.col-lg-3 -->
-
+		
 			<div class="col-lg-9">
 
 				<div id="carouselExampleIndicators" class="carousel slide my-4"
@@ -107,7 +115,7 @@
 								alt="Second slide">
 						</div>
 						<div class="carousel-item">
-							<img class="d-block img-fluid" src="img/cyberwow2.png" 
+							<img class="d-block img-fluid" src="img/cyberwow2.png"
 								alt="Third slide">
 						</div>
 					</div>
@@ -122,17 +130,20 @@
 					</a>
 				</div>
 				<div class="row">
-					<c:forEach items="${tienda}" var="x">
+				
+					<s:iterator value="lstProductos">
 						<div class="col-lg-4 col-md-6 mb-4">
 							<div class="card h-100">
-								<a href="tiendaSer?btnes=q&cod=${x.idprod }"><img
-									class="card-img-top" src="img/imgs_700x400/${x.idprod}.jpg" alt="No found"></a>
+							
+								<a href="buscarProduc?&p.idProd=<s:property value="idProd"/>"><img
+									class="card-img-top" src="img/imgs_700x400/<s:property value="idProd"/>.jpg"
+									alt="No found"></a>
 								<div class="card-body">
 									<h4 class="card-title">
-										<a href="tiendaSer?btnes=q&cod=${x.idprod}">${x.nomprod}</a>
+										<a href="buscarProduc?&p.idProd=<s:property value="idProd"/>"><s:property value="nomProd"/></a>
 									</h4>
-									<h5>S/ ${x.precio}</h5>
-									<p class="card-text">${x.descripcion}</p>
+									<h5>S/ <s:property value="precio"/></h5>
+									<p class="card-text"><s:property value="descripcion"/></p>
 								</div>
 								<div class="card-footer">
 									<small class="text-muted">&#9733; &#9733; &#9733;
@@ -140,9 +151,11 @@
 								</div>
 							</div>
 						</div>
-					</c:forEach>
+					</s:iterator>
+					
 				</div>
 			</div>
+			
 		</div>
 	</div>
 	<footer class="text-light">
@@ -197,8 +210,7 @@
 		</div>
 	</footer>
 
-	<!-- Bootstrap core JavaScript -->
-	<script src="vendor/jquery/jquery.min.js"></script>
+	<!-- Bootstrap core JavaScript -->	
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
