@@ -8,9 +8,9 @@ import model.Producto;
 
 public interface VentaMapper {
 	
-//	public String generaNumBoleta();
-//	
-//	public int realizarVenta(Boleta cab, ArrayList<DetalleBoleta> det);
+	public String generaNumBoleta();
+	
+	public int realizarVenta(Boleta boleta);
 	
 	public ArrayList<Producto> listado(Producto p);
 }

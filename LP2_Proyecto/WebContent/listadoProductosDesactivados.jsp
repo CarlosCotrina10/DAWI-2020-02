@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-<%@ taglib uri="/struts-bootstrap-tags" prefix="sb" %>
+<%@ taglib uri="/struts-bootstrap-tags" prefix="sb"%>
 <%@ taglib uri="/struts-jquery-tags" prefix="sj"%>
 <html>
 <head>
@@ -34,31 +34,41 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<s:if test="1==1"> <!-- si el usuario es null, regresar al login-->
-						<li class="nav-item"><a class="nav-link"
-						href="loginRegistro.jsp">Iniciar Sesion</a></li>
+					<s:set var="usu" value="0" />
+					<s:if test="#session.usuario != null">
+						<s:set var="usu" value="#session.usuario" />
 					</s:if>
-					
+
+					<s:if test="#usu == 0">
+						<!-- si el usuario es null, regresar al login-->
+						<li class="nav-item"><a class="nav-link"
+							href="loginRegistro.jsp">Iniciar Sesion</a></li>
+					</s:if>
+
 					<s:else>
-					
-						<s:if test=""> <!-- si el usuario es un cliente, tipo = 0 se dirige al loginregistro-->									
+
+						<s:if test="1 == 1">
+							<!-- si el usuario es un cliente, tipo = 0 se dirige al loginregistro-->
 						</s:if>
-						
+
 						<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-						role="button" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"> Bienvenido ${usuario.nombre} </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						
-						<s:if test=""> <!-- si el usuario es un Admin, tipo = 1-->
-							<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a> <a
-								class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
-							<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
-							<div class="dropdown-divider"></div>
-						</s:if>
-						
-						<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a>
-						</div></li>
+							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> Bienvenido <s:property
+									value="#session.usuario.nombre" />
+						</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+								<s:if test="#session.usuario.idTipo == 1">
+									<!-- si el usuario es un Admin, tipo = 1-->
+									<a class="dropdown-item" href="index.jsp">Tienda</a>
+									<a class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
+									<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
+									<div class="dropdown-divider"></div>
+								</s:if>
+
+								<a class="dropdown-item" href="logout">Cerrar Sesion</a>
+							</div></li>
 					</s:else>
 
 				</ul>
@@ -120,9 +130,7 @@
 					<button type="submit" class="btn btn-primary float-right"
 						name="btnes" value="l">Listar</button>
 				</form>
-				<br>
-				<br>
-				<br>
+				<br> <br> <br>
 				<p>${mensaje}</p>
 			</div>
 			<div class="col-lg-9">
@@ -154,9 +162,9 @@
 										alt="editar" src="img/edit1.png" height=21px width=21px
 										title="Actualizar">
 								</a></td>
-								<td><a href="crudProducto?btnes=e&cod=${x.idprod}&est=1"> <img
-										alt="editar" src="img/activate1.png" height=21px width=21px
-										title="Activar">
+								<td><a href="crudProducto?btnes=e&cod=${x.idprod}&est=1">
+										<img alt="editar" src="img/activate1.png" height=21px
+										width=21px title="Activar">
 								</a></td>
 							</tr>
 						</c:forEach>

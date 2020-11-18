@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- Para: ArrayList<ProductoDTO> listado(Producto p) -->
 	<select id="listado" resultType="model.Producto" parameterType="model.Producto">
-		select * from tb_productos where estado = 1
+		select * from tb_productos where 1 = 1
 		<if test="idCategoria != -1">
 			and idCategoria = #{idCategoria}
 		</if>
@@ -39,5 +39,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- Para: Producto buscar(int cod) -->
 	<select id="buscar" parameterType="int" resultType="model.Producto" statementType="CALLABLE">
 		{CALL USP_buscarProducto(#{idProd})}
+	</select>
+	
+<!-- 	public ArrayList<Producto> listaProductos(); -->
+	<select id="listaProductos" resultType="model.Producto">
+		select * from tb_productos
 	</select>
 </mapper>

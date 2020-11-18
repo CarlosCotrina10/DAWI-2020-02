@@ -1,14 +1,17 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Boleta {
 	private String numBoleta, fecha;
 	private int codUsuario;
 	private double total;
+	private ArrayList<DetalleBoleta> detalle;
 
 	@Override
 	public String toString() {
 		return "Boleta [numBoleta=" + numBoleta + ", fecha=" + fecha + ", codUsuario=" + codUsuario + ", total=" + total
-				+ "]";
+				+ ", detalle=" + detalle + "]";
 	}
 
 	public String getNumBoleta() {
@@ -41,6 +44,14 @@ public class Boleta {
 
 	public void setTotal(double total) {
 		this.total = total;
+	}
+
+	public ArrayList<DetalleBoleta> getDetalle() {
+		return detalle;
+	}
+
+	public void setDetalle(ArrayList<DetalleBoleta> detalle) {
+		this.detalle = detalle;
 	}
 
 }

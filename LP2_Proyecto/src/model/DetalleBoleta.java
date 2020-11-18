@@ -1,14 +1,14 @@
 package model;
 
 public class DetalleBoleta {
-	private String numBoleta;
-	private int idprod, cantidad;
+	private String numBoleta , producto;
+	private int idProd, cantidad;
 	private double preciovta;
-
+	
 	@Override
 	public String toString() {
-		return "DetalleBoleta [numBoleta=" + numBoleta + ", idprod=" + idprod + ", cantidad=" + cantidad
-				+ ", preciovta=" + preciovta + "]";
+		return "DetalleBoleta [numBoleta=" + numBoleta + ", producto=" + producto + ", idProd=" + idProd + ", cantidad="
+				+ cantidad + ", preciovta=" + preciovta + "]";
 	}
 
 	public String getNumBoleta() {
@@ -19,12 +19,12 @@ public class DetalleBoleta {
 		this.numBoleta = numBoleta;
 	}
 
-	public int getIdprod() {
-		return idprod;
+	public int getIdProd() {
+		return idProd;
 	}
 
-	public void setIdprod(int idprod) {
-		this.idprod = idprod;
+	public void setIdProd(int idProd) {
+		this.idProd = idProd;
 	}
 
 	public int getCantidad() {
@@ -41,6 +41,18 @@ public class DetalleBoleta {
 
 	public void setPreciovta(double preciovta) {
 		this.preciovta = preciovta;
+	}
+
+
+
+	public String getProducto() {
+		return producto;
+	}
+
+
+
+	public void setProducto(String producto) {
+		this.producto = producto;
 	}
 
 }

@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 	public ArrayList<Usuario> listado(Usuario u); -->
 	<select id="listado" parameterType="model.Usuario" resultType="model.Usuario">
-		select * from tb_usuarios where estado = 1
+		select * from tb_usuarios where 1 = 1
 		<if test="idTipo != -1">
 			and idTipo = #{idTipo}
 		</if>

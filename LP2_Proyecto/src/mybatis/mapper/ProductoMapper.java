@@ -18,5 +18,7 @@ public interface ProductoMapper {
 	public int cambiarEstado(Producto p);
 	
 	public ArrayList<Categoria> listadoCategoria();
+	
+	public ArrayList<Producto> listaProductos();
 		
 }

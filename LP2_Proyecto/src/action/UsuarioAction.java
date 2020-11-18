@@ -1,11 +1,13 @@
 package action;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import model.Categoria;
@@ -24,33 +26,40 @@ public class UsuarioAction extends ActionSupport{
 	private ArrayList<Distrito> lstDistrito;
 	private ArrayList<Tipo> lstTipo;
 	private ArrayList<Usuario> lstUsuario;
-	private ArrayList<Producto> lstProductos;
-	private ArrayList<Categoria> lstCategoria;
-	private Producto p;
+	private ArrayList<Producto> lstProducto;
+	private Producto pro;
 	private String btn;
-	private int cod;
+	private int cod, estadoReg;
+	private Map<String, Object> session = ActionContext.getContext().getSession();
 	
 	
 	//metodos
 	@Action(value = "/login",results = {@Result(name="error",location = "/loginRegistro.jsp"),
-			@Result(name="ok",location = "/index.jsp")})
+			@Result(name="okCli",location = "/index.jsp"),@Result(name="okAdm",location = "/listadoProductos.jsp")})
 	public String validarUsuario() {
 		String ok = "";
 		u = new UsuarioService().validar(u);
-		if(u != null) {
-			addActionMessage("Usuario logeado");
-			lstProductos = new VentaService().listado(p);
-			lstCategoria = new ProductoService().listadoCategoria();
-			ok = "ok";
+		if(u != null) {	
+			session.put("usuario", u);
+			if(u.getIdTipo() == 0) {
+				ok = "okCli";
+			}else {
+				pro = new Producto();
+				pro.setEstado(1);
+				pro.setIdCategoria(-1);
+				lstProducto = new ProductoService().listado(pro);
+				ok = "okAdm";
+			}
 		}
 		else {
-			addActionError("Usuario no encontrado");
+			addActionError("Usuario o contraseña incorrecto");
 			ok = "error";
 		}
 		return ok;
 	}
 	
 	@Action(value = "/crudUsua" ,results = {@Result(name = "okR",location = "/registrarUsuario.jsp"),
+			@Result(name = "okRCli",location = "/loginRegistro.jsp"),
 			@Result(name = "okA",location = "/actualizarUsuario.jsp"),@Result(name = "okE",location = "/listadoUsuarios.jsp")})
 	public String crudProducto() {
 		int ok = 0;
@@ -60,10 +69,15 @@ public class UsuarioAction extends ActionSupport{
 		case "Registrar":
 			ok = new UsuarioService().registrar(u);
 			salida = "okR";
+			
 			if(ok == 0)
 				error= "Error al Registrar";
 			else
 				message = "Registro exitoso";
+			if(estadoReg == 1) {
+				salida = "okRCli";
+				message = "Usuario "+ u.getUsuario() +" registrado";
+			}
 			break;
 		case "Actualizar":
 			ok = new UsuarioService().actualizar(u);
@@ -116,6 +130,19 @@ public class UsuarioAction extends ActionSupport{
 		lstUsuario = new UsuarioService().listado(usu);		
 		return "ok";
 	}
+	
+	@Action(value="logout",results = {@Result(name="ok" ,location = "/index.jsp")})
+	public String logout() {
+		session.remove("usuario");
+		return "ok";
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -180,25 +207,37 @@ public class UsuarioAction extends ActionSupport{
 	public void setLstTipo(ArrayList<Tipo> lstTipo) {
 		this.lstTipo = lstTipo;
 	}
-	public ArrayList<Producto> getLstProductos() {
-		return lstProductos;
-	}
-	public void setLstProductos(ArrayList<Producto> lstProductos) {
-		this.lstProductos = lstProductos;
-	}
-	public Producto getP() {
-		return p;
-	}
-	public void setP(Producto p) {
-		this.p = p;
+
+	public Map<String, Object> getSession() {
+		return session;
 	}
 
-	public ArrayList<Categoria> getLstCategoria() {
-		return lstCategoria;
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
 	}
 
-	public void setLstCategoria(ArrayList<Categoria> lstCategoria) {
-		this.lstCategoria = lstCategoria;
+	public ArrayList<Producto> getLstProducto() {
+		return lstProducto;
+	}
+
+	public void setLstProducto(ArrayList<Producto> lstProducto) {
+		this.lstProducto = lstProducto;
+	}
+
+	public Producto getPro() {
+		return pro;
+	}
+
+	public void setPro(Producto pro) {
+		this.pro = pro;
+	}
+
+	public int getEstadoReg() {
+		return estadoReg;
+	}
+
+	public void setEstadoReg(int estadoReg) {
+		this.estadoReg = estadoReg;
 	}
 	
 }

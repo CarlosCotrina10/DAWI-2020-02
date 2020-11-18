@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-<%@ taglib uri="/struts-bootstrap-tags" prefix="sb" %>
+<%@ taglib uri="/struts-bootstrap-tags" prefix="sb"%>
 <%@ taglib uri="/struts-jquery-tags" prefix="sj"%>
 
 <html lang="en">
@@ -19,13 +19,13 @@
 <link href="css/cart.css" rel="stylesheet">
 <link href="css/shop.css" rel="stylesheet">
 <s:head/>
-<sj:head/>
+<sj:head />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type="text/css">
-	body {
-		color:#0275d8;
-	}
+body {
+	color: #0275d8;
+}
 </style>
 </head>
 
@@ -33,7 +33,7 @@
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
 		<div class="container">
 			<a class="navbar-brand py-0 my-0 by-0 h1"
-				href="tiendaSer?btnes=l&cat=0"><span class="mb-0 h3">miTienda</span></a>
+				href="cargarProdTienda"><span class="mb-0 h3">miTienda</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -41,34 +41,52 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					
-					<s:if test="1==1"> <!-- Usuario es null -->
-						<li class="nav-item"><a class="nav-link" href="loginRegistro.jsp">Iniciar
-							Sesion</a></li>
+					<s:set var="usu" value="0" />
+					<s:if test="#session.usuario != null">
+						<s:set var="usu" value="#session.usuario" />
 					</s:if>
-					
-					<s:else> <!-- Usuario se logeo -->
+
+					<s:if test="#usu == 0">
+						<!-- si el usuario es null, regresar al login-->
+						<li class="nav-item"><a class="nav-link"
+							href="loginRegistro.jsp">Iniciar Sesion</a></li>
+					</s:if>
+
+					<s:else>
+
+						<s:if test="1 == 1">
+							<!-- si el usuario es un cliente, tipo = 0 se dirige al loginregistro-->
+						</s:if>
+
 						<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-						role="button" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"> Bienvenido ${usuario.nombre} </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">	
-											
-							<s:if test="1==0"> <!-- si el usuario es de tipo 1 --> 
-								<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a> <a
-								class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
-								<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
-								<div class="dropdown-divider"></div>
-							</s:if>
-							
-							<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a>
-						</div></li>
+							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> Bienvenido <s:property
+									value="#session.usuario.nombre" />
+						</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+								<s:if test="#session.usuario.idTipo == 1">
+									<!-- si el usuario es un Admin, tipo = 1-->
+									<a class="dropdown-item" href="index.jsp">Tienda</a>
+									<a class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
+									<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
+									<div class="dropdown-divider"></div>
+								</s:if>
+
+								<a class="dropdown-item" href="logout">Cerrar Sesion</a>
+							</div></li>
 					</s:else>
-					
+
 				</ul>
-				<a class="btn btn-success btn-sm ml-3" href="carrito.jsp"> <i
-					class="fa fa-shopping-cart"></i> Cart <span
-					class="badge badge-light">${cantArticulos }</span>
+				<a class="btn btn-success btn-sm ml-3" href="carrito.jsp"> 
+					<i class="fa fa-shopping-cart">
+					</i> Cart 
+					<s:set name="contador" value="0"/>
+					<s:if test="#session.contador != null">
+						<s:set name="contador" value="#session.contador"/>
+					</s:if>
+					<span class="badge badge-light"><s:property value="#contador"/></span>
 				</a>
 			</div>
 		</div>
@@ -84,59 +102,66 @@
 				<form action="login" method="post">
 					<div class="sign-in-htm">
 						<div class="group">
-						<br>
-						<br>
-						<br>
-						<br>
-							<label for="user" class="label">Usuario</label> <input id="user"
-								type="text" name="u.usuario" class="input" required="required">
+							<br> <br> <br> <br> <label for="user"
+								class="label">Usuario</label> 
+								<s:textfield id="user" name="u.usuario" required="required"
+								cssClass="input"/>
 						</div>
 						<div class="group">
-							<label for="pass" class="label">Contraseña</label> <input
-								id="pass" type="password" name="u.clave" class="input"
-								data-type="password" required="required">
+							<label for="pass" class="label">Contraseña</label> 
+							<s:textfield id="pass" name="u.clave" required="required"
+								cssClass="input" data-type="password"/>
 						</div>
 						<br>
-						<div class="group">
-						<s:hidden name="p.idCategoria" value="-1"/>
+						<div class="group" style="color: red">
+							<s:hidden name="p.idCategoria" value="-1" />
 							<!--<button type="submit" class="btn btn-primary" name="btnes" value="v">Ingresar</button>-->
-							<input type="submit" class="button" name="btnes" value="Iniciar Sesion">
-						</div>						
-						<s:actionmessage/>
+							<input type="submit" class="button" name="btnes"
+								value="Iniciar Sesion">
+						</div>
+						<s:actionmessage />
 						<s:actionerror/>
 					</div>
-				</form>			
-				<form action="crudUsu">
+				</form>
+				<form action="crudUsua" method="post">
 					<div class="sign-up-htm">
+						<s:hidden name="u.estado" value="1"/>
+						<s:hidden name="u.idTipo" value="0"/>
+						<s:hidden name="estadoReg" value="1"/>
 						<div class="group">
-							<label for="user" class="label">Nombre</label> <input id="nombre"
-								type="text" name="txtNombre" class="input" required="required" pattern="[A-Za-z]{1,15}">
+							<label for="user" class="label">Nombre</label> 
+							<s:textfield id="nombre" name="u.nombre" required="required" pattern="[A-Za-z]{1,15}"
+								cssClass="input"/>
 						</div>
 						<div class="group">
-							<label for="user" class="label">Apellido</label> <input
-								id="apellido" type="text" name="txtApellido" class="input" required="required" pattern="[A-Za-z ]{1,30}">
+							<label for="user" class="label">Apellido</label>
+							<s:textfield id="apellido" name="u.apellido" required="required" pattern="[A-Za-z ]{1,30}"
+								cssClass="input"/>
 						</div>
 						<div class="group">
-							<label for="user" class="label">Distrito</label>  <select
-								name="cboDistrito" class="input">
-								<!--dist:LlenaCombo/-->
-								<ct:llenaDistrito/>
-							</select>
+							<label for="user" class="label">Distrito</label>
+							<s:url id="idDistrito" action="listadoDistrito" />
+							<sj:select label="Distrito" href="%{idDistrito}"
+								name="u.codDistrito" list="lstDistrito" listKey="codDistrito"
+								listValue="nomDistrito" headerKey="-1"
+								headerValue="Seleccionar Distrito" cssClass="input" />
 						</div>
 						<div class="group">
-							<label for="user" class="label">Usuario</label> <input id="user"
-								type="text" name="txtUsuario" class="input" required="required">
+							<label for="user" class="label">Usuario</label>
+							<s:textfield id="user" name="u.usuario" required="required"
+								cssClass="input"/>
 						</div>
 						<div class="group">
-							<label for="pass" class="label">Clave</label> <input id="pass"
-								type="password" name="txtClave" class="input"
-								data-type="password" required="required">
+							<label for="pass" class="label">Clave</label> 
+							<s:textfield id="password" name="u.clave" required="required"
+								cssClass="input" type="password" data-type="password"/>
 						</div>
-						<br>
 						<div class="group">
-							<input type="submit" class="button" name="btnes" value="Registrar">
+							<input type="submit" class="button" name="btn"
+								value="Registrar">
 						</div>
 					</div>
+					
 				</form>
 			</div>
 		</div>

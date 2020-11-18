@@ -104,4 +104,19 @@ public class ProductoService implements ProductoMapper{
 		return listado;
 	}
 
+	@Override
+	public ArrayList<Producto> listaProductos() {
+		ArrayList<Producto> listado = null;
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			ProductoMapper pm = session.getMapper(ProductoMapper.class);
+			listado = pm.listaProductos();
+		} catch (Exception e) {
+			System.out.println("Error al listar Productos en Tienda" + e.getMessage());
+		}finally {
+			session.close();
+		}
+		return listado;
+	}
+
 }

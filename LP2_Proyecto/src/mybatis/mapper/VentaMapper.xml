@@ -12,4 +12,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			and idCategoria = #{idCategoria}
 		</if>
 	</select>
+<!-- 	public int realizarVenta(Boleta boleta); -->
+	<insert id="insertarBoleta"  parameterType="model.Boleta">
+		insert into tb_boleta values (#{numBoleta},#{codUsuario},CURDATE(),#{total})
+	</insert>
+	<insert id="insertBoletaDetalle" parameterType="model.DetalleBoleta">
+		insert into tb_detalle_boleta values (#{numBoleta},#{idProd},#{cantidad},#{preciovta})
+	</insert>
+	<update id="actualizarProducto" parameterType="model.DetalleBoleta">
+		update tb_productos set stock = stock - #{cantidad} where idProd = #{idProd}
+	</update>
+
+<!-- 	public String generaNumBoleta(); -->
+	<select id="generaNumBoleta" resultType="String" statementType="CALLABLE">
+		SELECT UF_generatePKBoleta();
+	</select>
 </mapper>

@@ -1,14 +1,16 @@
 package mybatis.mapper;
 
 import java.util.ArrayList;
-import model.Producto;
-import model.VentasMes;
+
+import beans.ProductoDTO;
+import model.Parametro;
+import model.VentaMes;
 import model.VentasProductos;
 
 public interface ReporteMapper {
-	public ArrayList<Producto> listaStock(int stock);
+	public ArrayList<ProductoDTO> listaStock(ProductoDTO p);
 	
-	public ArrayList<VentasMes> listadoVentasMes(int year);
+	public ArrayList<VentaMes> listadoVentasMes(Parametro p);
 	
-	public ArrayList<VentasProductos> listadoVentaProductos(String date1, String date2);
+	public ArrayList<VentasProductos> listadoVentaProductos(Parametro p);
 }

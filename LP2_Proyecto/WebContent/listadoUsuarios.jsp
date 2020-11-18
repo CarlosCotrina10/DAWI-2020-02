@@ -24,10 +24,13 @@
 	src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
+	<s:if test="#session.usuario == null">
+		<s:action name="principal" executeResult="true"/>
+	</s:if>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
 		<div class="container">
 			<a class="navbar-brand py-0 my-0 by-0 h1"
-				href="tiendaSer?btnes=l&cat=0"><span class="mb-0 h3">miTienda</span></a>
+				href="cargarProdTienda"><span class="mb-0 h3">miTienda</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +38,12 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<s:if test="1==1">
+					<s:set var="usu" value="0" />
+					<s:if test="#session.usuario != null">
+						<s:set var="usu" value="#session.usuario" />
+					</s:if>
+
+					<s:if test="#usu == 0">
 						<!-- si el usuario es null, regresar al login-->
 						<li class="nav-item"><a class="nav-link"
 							href="loginRegistro.jsp">Iniciar Sesion</a></li>
@@ -43,25 +51,27 @@
 
 					<s:else>
 
-						<s:if test="">
+						<s:if test="1 == 1">
 							<!-- si el usuario es un cliente, tipo = 0 se dirige al loginregistro-->
 						</s:if>
 
 						<li class="nav-item dropdown"><a
 							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 							role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> Bienvenido ${usuario.nombre} </a>
+							aria-expanded="false"> Bienvenido <s:property
+									value="#session.usuario.nombre" />
+						</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-								<s:if test="">
+								<s:if test="#session.usuario.idTipo == 1">
 									<!-- si el usuario es un Admin, tipo = 1-->
-									<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a>
+									<a class="dropdown-item" href="index.jsp">Tienda</a>
 									<a class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
 									<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
 									<div class="dropdown-divider"></div>
 								</s:if>
 
-								<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a>
+								<a class="dropdown-item" href="logout">Cerrar Sesion</a>
 							</div></li>
 					</s:else>
 
@@ -86,7 +96,7 @@
 				</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item"
-							href="listadoProd?pro.idCategoria=-1&pro.estado=-1">Listar</a>
+							href="listadoProd?pro.idCategoria=-1&pro.estado=1">Listar</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="registrarProducto.jsp">Registrar</a>
 					</div></li>
@@ -98,7 +108,7 @@
 				</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item"
-							href="listadoUsuario?usu.idTipo=-1&usu.codDistrito=-1&usu.estado=-1">Listar</a>
+							href="listadoUsuario?usu.idTipo=-1&usu.codDistrito=-1&usu.estado=1">Listar</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="registrarUsuario.jsp">Registrar</a>
 					</div></li>
@@ -121,7 +131,7 @@
 						headerKey="-1" headerValue="Todos los Distritos"
 						cssClass="form-control" name="usu.codDistrito" />
 					<s:select label="Estado"
-						list="#{'-1':'Todos los estados','0':'Inactivo','1':'Activo' }"
+						list="#{'0':'Inactivo','1':'Activo' }"
 						name="usu.estado" cssClass="form-control" />
 					<s:submit value="Listar" cssClass="btn btn-primary float-right" />
 				</s:form>
@@ -160,12 +170,20 @@
 										alt="editar" src="img/edit1.png" height=21px width=21px
 										title="Actualizar">
 								</a></td>
-								<td><a
-									href="crudUsua?btn=Eliminar&u.codUsuario=<s:property value="codUsuario"/>&u.estado=0&usu.idTipo=-1&usu.codDistrito=-1&usu.estado=-1">
+								<s:if test="estado == 1">
+									<td><a
+									href="crudUsua?btn=Eliminar&u.codUsuario=<s:property value="codUsuario"/>&u.estado=0&usu.idTipo=-1&usu.codDistrito=-1&usu.estado=1">
 										<img alt="editar" src="img/disable1.png" height=21px
 										width=21px title="Descativar">
-								</a> </td>
-								
+								</a></td>
+								</s:if>
+								<s:else>
+									<td><a href="crudUsua?btn=Eliminar&u.codUsuario=<s:property value="codUsuario"/>&u.estado=1&usu.idTipo=-1&usu.codDistrito=-1&usu.estado=0">
+										<img alt="editar" src="img/activate1.png" height=21px
+										width=21px title="Activar">
+								</a></td>
+								</s:else>
+
 							</tr>
 						</s:iterator>
 					</tbody>
