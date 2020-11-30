@@ -1,8 +1,9 @@
-<%@page import="beans.UsuarioDTO"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<%@ taglib uri="/struts-bootstrap-tags" prefix="sb"%>
+<%@ taglib uri="/struts-jquery-tags" prefix="sj"%>
 
 <html lang="en">
 
@@ -24,7 +25,7 @@
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
 		<div class="container">
 			<a class="navbar-brand py-0 my-0 by-0 h1"
-				href="tiendaSer?btnes=l&cat=0"><span class="mb-0 h3">miTienda</span></a>
+				href="cargarProdTienda"><span class="mb-0 h3">miTienda</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -32,42 +33,52 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<%
-						UsuarioDTO u = (UsuarioDTO) request.getSession().getAttribute("usuario");
-						if (u == null) {
-					%>
-					<li class="nav-item"><a class="nav-link" href="loginRegistro.jsp">Iniciar
-							Sesion</a></li>
-					<%
-						} else {
-					%>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-						role="button" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"> Bienvenido ${usuario.nombre} </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<%
-								if (u.getIdTipo() == 1) {
-							%>
-							<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a> <a
-								class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
-							<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
-							<div class="dropdown-divider"></div>
+					<s:set var="usu" value="0" />
+					<s:if test="#session.usuario != null">
+						<s:set var="usu" value="#session.usuario" />
+					</s:if>
 
-							<%
-								}
-							%>
+					<s:if test="#usu == 0">
+						<!-- si el usuario es null, regresar al login-->
+						<li class="nav-item"><a class="nav-link"
+							href="loginRegistro.jsp">Iniciar Sesion</a></li>
+					</s:if>
 
-							<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a>
-						</div></li>
-					<%
-						}
-					%>
+					<s:else>
+
+						<s:if test="1 == 1">
+							<!-- si el usuario es un cliente, tipo = 0 se dirige al loginregistro-->
+						</s:if>
+
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> Bienvenido <s:property
+									value="#session.usuario.nombre" />
+						</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+								<s:if test="#session.usuario.idTipo == 1">
+									<!-- si el usuario es un Admin, tipo = 1-->
+									<a class="dropdown-item" href="index.jsp">Tienda</a>
+									<a class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
+									<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
+									<div class="dropdown-divider"></div>
+								</s:if>
+
+								<a class="dropdown-item" href="logout">Cerrar Sesion</a>
+							</div></li>
+					</s:else>
 
 				</ul>
-				<a class="btn btn-success btn-sm ml-3" href="carrito.jsp"> <i
-					class="fa fa-shopping-cart"></i> Cart <span
-					class="badge badge-light">${cantArticulos }</span>
+				<a class="btn btn-success btn-sm ml-3" href="carrito.jsp"> 
+				<i class="fa fa-shopping-cart">
+				</i> Cart 
+				<s:set name="contador" value="0"/>
+				<s:if test="#session.contador != null">
+					<s:set name="contador" value="#session.contador"/>
+				</s:if>
+				<span class="badge badge-light"><s:property value="#contador"/> </span>
 				</a>
 			</div>
 		</div>
@@ -95,49 +106,48 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${carro}" var="x" varStatus="loop">
-									<tr>
-										<td><img src="img/imgs_50x50/${x.idprod}.jpg" />
-										</td>
-										<td><a href="tiendaSer?btnes=q&cod=${x.idprod}">${x.nombre}</a></td>
+								<s:iterator value="#session.carrito">									
+									<tr>									
+										<td><img src="img/imgs_50x50/<s:property value="idProd"/>.jpg"/></td>
+										<td><a href="buscarProduc?&p.idProd=<s:property value="idProd"/>"><s:property value="producto"/></a></td>
 										<td>En stock</td>
 										<td><input class="form-control text-center" type="number"
-											value="${x.cantidad}" min="1" step="1" readonly="readonly"/></td>
-										<td class="text-right">S/ ${x.preciovta}</td>
+											value="<s:property value="cantidad"/>" min="1" step="1" readonly="readonly" /></td>
+										<td class="text-right">S/. <s:property value="preciovta"/></td>
 										<td class="text-right"><a class="btn btn-sm btn-danger"
-											href="tiendaSer?btnes=e&con=${loop.index}"> <i
+											href="ElimProdCarro?det.idProd=<s:property value="idProd"/>"> <i
 												class="fa fa-trash"></i>
 										</a></td>
 									</tr>
-								</c:forEach>
+								</s:iterator>
 								<tr>
 									<td></td>
 									<td></td>
 									<td></td>
-									<td class="text-right"><strong>Total</strong></td>
-									<td class="text-right"><strong>S/ ${subTotalVenta }</strong></td>
+									<td class="text-right"><strong>Total</strong></td>									
+									<td class="text-right"><strong>S/. <s:property value="#session.total"/> </strong></td>
 									<td></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
-				<div class="col mb-2">
+				<div class="col mb-2" >
 					<div class="row">
 						<div class="col-sm-12  col-md-6">
-							<button type="submit" class="btn btn-lg btn-block btn-light text-uppercase" name="btnes" value="i">
-							Continuar comprando</button>
+							<a href="index.jsp" class="btn btn-lg btn-block btn-light text-uppercase">Continuar comprando</a>
 						</div>
 						<div class="col-sm-12 col-md-6 text-right">
-							<button type="submit"
-								class="btn btn-lg btn-block btn-success text-uppercase"
-								name="btnes" value="b">Completar</button>
+							<a href="registroBoleta" class="btn btn-lg btn-block btn-success text-uppercase">Completar</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</form>
-		${mensaje}
+		<div style="text-align: center;">
+			<s:actionerror/>
+			<s:actionmessage/>
+		</div>		
 	</div>
 
 	<br>

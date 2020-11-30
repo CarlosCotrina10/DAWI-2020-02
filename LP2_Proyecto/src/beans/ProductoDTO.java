@@ -1,54 +1,27 @@
 package beans;
 
 public class ProductoDTO {
-	private String nomprod, descripcion, nomcat, desEstado;
-	private int idprod, stock, idcategoria, estado;
-	private double precio;
-	
+	private int idProd,idCategoria, stock, estado;
+	private String nomProd, descripcion, categoria;
+	private double precio;	
+		
 	@Override
 	public String toString() {
-		return "ProductoDTO [nomprod=" + nomprod + ", descripcion=" + descripcion + ", nomcat=" + nomcat
-				+ ", desEstado=" + desEstado + ", idprod=" + idprod + ", stock=" + stock + ", idcategoria="
-				+ idcategoria + ", estado=" + estado + ", precio=" + precio + "]";
+		return "ProductoDTO [idProd=" + idProd + ", idCategoria=" + idCategoria + ", stock=" + stock + ", estado="
+				+ estado + ", nomProd=" + nomProd + ", descripcion=" + descripcion + ", categoria=" + categoria
+				+ ", precio=" + precio + "]";
 	}
-
-	public String getDesEstado() {
-		return desEstado;
+	public int getIdCategoria() {
+		return idCategoria;
 	}
-
-	public void setDesEstado(String desEstado) {
-		this.desEstado = desEstado;
+	public void setIdCategoria(int idCategoria) {
+		this.idCategoria = idCategoria;
 	}
-	
-	public int getEstado() {
-		return estado;
+	public int getIdProd() {
+		return idProd;
 	}
-	public void setEstado(int estado) {
-		this.estado = estado;
-	}
-	public String getNomprod() {
-		return nomprod;
-	}
-	public void setNomprod(String nomprod) {
-		this.nomprod = nomprod;
-	}
-	public String getDescripcion() {
-		return descripcion;
-	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-	public String getNomcat() {
-		return nomcat;
-	}
-	public void setNomcat(String nomcat) {
-		this.nomcat = nomcat;
-	}
-	public int getIdprod() {
-		return idprod;
-	}
-	public void setIdprod(int idprod) {
-		this.idprod = idprod;
+	public void setIdProd(int idProd) {
+		this.idProd = idProd;
 	}
 	public int getStock() {
 		return stock;
@@ -56,11 +29,29 @@ public class ProductoDTO {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-	public int getIdcategoria() {
-		return idcategoria;
+	public int getEstado() {
+		return estado;
 	}
-	public void setIdcategoria(int idcategoria) {
-		this.idcategoria = idcategoria;
+	public void setEstado(int estado) {
+		this.estado = estado;
+	}
+	public String getNomProd() {
+		return nomProd;
+	}
+	public void setNomProd(String nomProd) {
+		this.nomProd = nomProd;
+	}
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	public String getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
 	}
 	public double getPrecio() {
 		return precio;
@@ -68,5 +59,6 @@ public class ProductoDTO {
 	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
-		
+	
+	
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<properties resource="mybatis/configuracion.properties" />
+
+	<environments default="mysql5">
+		<environment id="mysql5">
+			<transactionManager type="JDBC" />
+			<dataSource type="UNPOOLED">
+				<property name="driver" value="${drive5}" />
+				<property name="url" value="${url5}" />
+				<property name="username" value="${username5}" />
+				<property name="password" value="${password5}" />
+			</dataSource>
+		</environment>
+		<environment id="mysql9">
+			<transactionManager type="JDBC" />
+			<dataSource type="UNPOOLED">
+				<property name="driver" value="${drive9}" />
+				<property name="url" value="${url9}" />
+				<property name="username" value="${username9}" />
+				<property name="password" value="${password9}" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<!-- definimos la ruta de los mapper (xml) creados -->
+		<mapper resource="mybatis/mapper/ProductoMapper.xml" />
+		<mapper resource="mybatis/mapper/UsuarioMapper.xml" />
+		<mapper resource="mybatis/mapper/ReporteMapper.xml" />
+		<mapper resource="mybatis/mapper/VentaMapper.xml" />
+	</mappers>
+
+</configuration>

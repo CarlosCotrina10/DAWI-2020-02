@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.mapper.ReporteMapper">
+
+<!-- 	public ArrayList<ProductoDTO> listaStock(ProductoDTO p); -->	
+	<select id="listaStock" parameterType="beans.ProductoDTO" resultType="beans.ProductoDTO" statementType="CALLABLE">	
+		CALL sp_listarStock(#{stock});
+	</select>
+<!-- 	public ArrayList<VentasMes> listadoVentasMes(Parametro p); -->
+	<select id="listadoVentasMes" resultType="model.VentaMes" parameterType="model.Parametro">
+		select (DATE_FORMAT(b.fecha, "%M")) as mes,
+		year(b.fecha) as anio, 
+		sum(b.total) as total,
+		sum(db.cantidad) as productos, 
+		count(distinct(b.codUsuario)) as clientes,
+		users.users as users
+		from tb_boleta b
+	    join tb_detalle_boleta db
+	    on db.numBoleta = b.numBoleta,
+		(select count(codUsuario) as users from tb_usuarios
+	     where idTipo = 0) as users
+		where year(b.fecha) = #{anio}
+		group by mes; 
+	</select>
+	
+<!-- 	public ArrayList<VentasProductos> listadoVentaProductos(Parametro p); -->
+	<select id="listadoVentaProductos" parameterType="model.Parametro" resultType="model.VentasProductos">
+		select p.idprod as idprod,
+	    p.nomprod as nombre, 
+	    p.stock as stock, 
+	    c.descripcion as categoria,
+	    sum(db.cantidad) as cantidad,
+	    sum(db.cantidad*db.preciovta) as total,
+	    p.estado as estado
+	    from tb_detalle_boleta db
+	    join tb_boleta b on db.numBoleta = b.numBoleta
+	    join tb_productos p on db.idprod = p.idprod
+	    join tb_categorias c on p.idcategoria = c.idcategoria
+	    where b.fecha between #{fech1} and #{fech2}
+	    group by p.nomprod;
+	</select>
+</mapper>

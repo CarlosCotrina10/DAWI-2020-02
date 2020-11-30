@@ -1,9 +1,9 @@
-<%@page import="beans.UsuarioDTO"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="/WEB-INF/libreria.tld" prefix="ct"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<%@ taglib uri="/struts-bootstrap-tags" prefix="sb"%>
+<%@ taglib uri="/struts-jquery-tags" prefix="sj"%>
 <html>
 <head>
 <meta name="viewport"
@@ -23,10 +23,13 @@
 	src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
+	<s:if test="#session.usuario == null">
+		<s:action name="principal" executeResult="true"/>
+	</s:if>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
 		<div class="container">
 			<a class="navbar-brand py-0 my-0 by-0 h1"
-				href="tiendaSer?btnes=l&cat=0"><span class="mb-0 h3">miTienda</span></a>
+				href="cargarProdTienda"><span class="mb-0 h3">miTienda</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarResponsive" aria-controls="navbarResponsive"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -34,42 +37,42 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<%
-						UsuarioDTO u = (UsuarioDTO) request.getSession().getAttribute("usuario");
-						if (u == null) {
-							request.getRequestDispatcher("/loginRegistro.jsp").forward(request, response);
-					%>
-					<li class="nav-item"><a class="nav-link"
-						href="loginRegistro.jsp">Iniciar Sesion</a></li>
-					<%
-						} else {
-							if (u.getIdTipo() == 0) {
-								request.getSession().invalidate();
-								request.getRequestDispatcher("/loginRegistro.jsp").forward(request, response);
-							}
-					%>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-						role="button" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"> Bienvenido ${usuario.nombre} </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<%
-								if (u.getIdTipo() == 1) {
-							%>
-							<a class="dropdown-item" href="tiendaSer?btnes=l&cat=0">Tienda</a>
-							<a class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
-							<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
-							<div class="dropdown-divider"></div>
+					<s:set var="usu" value="0" />
+					<s:if test="#session.usuario != null">
+						<s:set var="usu" value="#session.usuario" />
+					</s:if>
 
-							<%
-								}
-							%>
+					<s:if test="#usu == 0">
+						<!-- si el usuario es null, regresar al login-->
+						<li class="nav-item"><a class="nav-link"
+							href="loginRegistro.jsp">Iniciar Sesion</a></li>
+					</s:if>
 
-							<a class="dropdown-item" href="crudUsu">Cerrar Sesion</a>
-						</div></li>
-					<%
-						}
-					%>
+					<s:else>
+
+						<s:if test="1 == 1">
+							<!-- si el usuario es un cliente, tipo = 0 se dirige al loginregistro-->
+						</s:if>
+
+						<li class="nav-item dropdown"><a
+							class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> Bienvenido <s:property
+									value="#session.usuario.nombre" />
+						</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+								<s:if test="#session.usuario.idTipo == 1">
+									<!-- si el usuario es un Admin, tipo = 1-->
+									<a class="dropdown-item" href="index.jsp">Tienda</a>
+									<a class="dropdown-item" href="listadoProductos.jsp">Mantenimiento</a>
+									<a class="dropdown-item" href="reporteStock.jsp">Reportes</a>
+									<div class="dropdown-divider"></div>
+								</s:if>
+
+								<a class="dropdown-item" href="logout">Cerrar Sesion</a>
+							</div></li>
+					</s:else>
 
 				</ul>
 			</div>
@@ -94,9 +97,9 @@
 							MES</span>
 				</a></li>
 				<li class="nav-item pl-0"><a class="nav-link pl-0 pr-5"
-					href="reporteProductos.jsp" id="navbarDropdown" aria-haspopup="true"
-					aria-expanded="false"> <span class="pl-0 h6">VENTAS DE
-							PRODUCTOS</span>
+					href="reporteProductos.jsp" id="navbarDropdown"
+					aria-haspopup="true" aria-expanded="false"> <span
+						class="pl-0 h6">VENTAS DE PRODUCTOS</span>
 				</a></li>
 			</ul>
 		</div>
@@ -105,16 +108,23 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<h5 class="my-4">Filtros</h5>
-				<form action="reporte" method="post">
-					<div class="form-group clearfix">
+		  	<!--  	<form action="stockProducto" method="post">
+					<div  class="form-group clearfix">
 						<label class="col-form-label" for="exampleInputFecha1">Stock:
 						</label> <input class="form-control col-lg-8 text-center float-right"
-							type="number" value="${stockF}" min="0" name="txtStock"
+							type="number" min="0" name="pro.stock"
 							required="required">
 					</div>
 					<button type="submit" class="btn btn-primary float-right"
 						name="btnes" value="s">Listar</button>
-				</form>
+				</form>-->
+				<s:form action="stockProducto" method="post">
+					<s:div cssClass="form-group clearfix">
+						<s:textfield label="Stock" cssClass="form-control col-lg-10 text-center float-right" 
+						labelposition="left" type="number" min="0" name="pro.stock" required="required"/>
+					</s:div>
+					<s:submit value="Listar" cssClass="btn btn-primary float-right" cssStyle="margin-top: 20px;"/>					
+				</s:form>
 				<br> <br> <br>
 				<p>${mensaje}</p>
 			</div>
@@ -135,22 +145,21 @@
 					</thead>
 
 					<tbody>
-						<c:forEach items="${milista}" var="x">
+						<s:iterator value="lstProducto">
 							<tr class="grilla_campo">
-								<td>${x.idprod}</td>
-								<td>${x.nomprod}</td>
-								<td>${x.descripcion}</td>
-								<td>${x.nomcat}</td>
-								<td>${x.stock}</td>
-								<td style="color: red;">S/.${x.precio }</td>
-
-								<td>${x.desEstado }</td>
-								<td><a href="crudProducto?btnes=q&cod=${x.idprod}"> <img
+								<td><s:property value="idProd" /></td>
+								<td><s:property value="nomProd" /></td>
+								<td><s:property value="descripcion" /></td>
+								<td><s:property value="idCategoria" /></td>
+								<td><s:property value="stock" /></td>
+								<td style="color: red;">S/.<s:property value="precio" /></td>
+								<td><a
+									href="buscarProd?p.idProd=<s:property value="idProd"/>"> <img
 										alt="editar" src="img/edit1.png" height=21px width=21px
 										title="Actualizar">
 								</a></td>
 							</tr>
-						</c:forEach>
+						</s:iterator>
 					</tbody>
 				</table>
 				<br>
