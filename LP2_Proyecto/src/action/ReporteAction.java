@@ -22,30 +22,50 @@ public class ReporteAction  extends  ActionSupport{
 	private ArrayList<ProductoDTO> lstProducto;
 	private ProductoDTO pro;
 	private Parametro p;
+	private String btn;
 	
-	@Action(value = "/ventaMes", results = {@Result(name = "ok", location = "/reporteVentas.jsp")})
+	@Action(value = "/ventaMes", results = {@Result(name = "ok", location = "/reporteVentas.jsp"),
+			@Result(name = "pdf", type = "jasper",params = {"location","/reportes/reporteVentaMes.jasper","dataSource","lstVentaMes","format","PDF",} )})
 	public String ventasMes() {
 		lstVentaMes = new ReporteService().listadoVentasMes(p);
-		return "ok";
+		switch (btn) {
+		case "Listar":
+			return "ok";
+		case "Generar PDF":
+			return "pdf";
+		default:
+			return "ok";
+		}
 	}
 
-	@Action(value = "/ventaProducto", results = {@Result(name = "ok", location = "/reporteProductos.jsp")})
+	@Action(value = "/ventaProducto", results = {@Result(name = "ok", location = "/reporteProductos.jsp"),
+		@Result(name = "pdf", type = "jasper",params = {"location","/reportes/reporteVentaProducto.jasper","dataSource","lstVentaProducto","format","PDF",} )})
 	public String ventasProducto() {
 		lstVentaProducto = new ReporteService().listadoVentaProductos(p);
-		return "ok";
+		switch (btn) {
+		case "Listar":
+			return "ok";
+		case "Generar PDF":
+			return "pdf";
+		default:
+			return "ok";
+		}
 	}
 	
-	@Action(value = "/stockProducto", results = {@Result(name = "ok", location = "/reporteStock.jsp")})
+	@Action(value = "/stockProducto", results = {@Result(name = "ok", location = "/reporteStock.jsp"),
+		@Result(name = "pdf", type = "jasper",params = {"location","/reportes/reporteStock.jasper","dataSource","lstProducto","format","PDF",} )})
 	public String stockProducto() {
 		lstProducto = new ReporteService().listaStock(pro);
-		return "ok";
+		switch (btn) {
+		case "Listar":
+			return "ok";
+		case "Generar PDF":
+			return "pdf";
+		default:
+			return "ok";
+		}
 	}
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
@@ -98,6 +118,14 @@ public class ReporteAction  extends  ActionSupport{
 
 	public void setPro(ProductoDTO pro) {
 		this.pro = pro;
+	}
+
+	public String getBtn() {
+		return btn;
+	}
+
+	public void setBtn(String btn) {
+		this.btn = btn;
 	}
 	
 	

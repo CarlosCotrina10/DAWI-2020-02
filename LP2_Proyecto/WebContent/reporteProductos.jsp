@@ -117,7 +117,8 @@
 						<s:textfield label="Hasta" cssStyle="margin-top: 15px;" cssClass="form-control col-lg-11 text-center float-right" 
 						type="date"  name="p.fech2" placeholder="yyyy/MM/dd" required="required"/>
 					</s:div>
-					<s:submit value="Listar" cssClass="btn btn-primary float-right" cssStyle="margin-top: 15px;"/>					
+					<s:submit value="Listar" name="btn" cssClass="btn btn-primary float-right" cssStyle="margin-top: 15px; width: 120px;"/>					
+					<s:submit value="Generar PDF" name="btn" cssClass="btn btn-primary float-right" cssStyle="margin-top: 10px; width: 120px;"/>
 				</s:form>
 				<br> <br> <br>
 				<p>${mensaje}</p>

@@ -113,7 +113,8 @@
 						<s:textfield label="Año " cssClass="form-control col-lg-10 text-center float-right" 
 						labelposition="left" type="number" min="2000" max="2100" name="p.anio" required="required"/>
 					</s:div>
-					<s:submit value="Listar" cssClass="btn btn-primary float-right" cssStyle="margin-top: 20px;"/>					
+					<s:submit value="Listar" name="btn" cssClass="btn btn-primary float-right" cssStyle="margin-top: 20px; width: 120px;"/>					
+					<s:submit value="Generar PDF" name="btn" cssClass="btn btn-primary float-right" cssStyle="margin-top: 10px; width: 120px;"/>
 				</s:form>
 				<br> <br> <br>
 				<p>${mensaje}</p>

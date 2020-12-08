@@ -118,12 +118,13 @@
 					<button type="submit" class="btn btn-primary float-right"
 						name="btnes" value="s">Listar</button>
 				</form>-->
-				<s:form action="stockProducto" method="post">
+				<s:form action="stockProducto" method="post" cssStyle="width: 100%">
 					<s:div cssClass="form-group clearfix">
 						<s:textfield label="Stock" cssClass="form-control col-lg-10 text-center float-right" 
 						labelposition="left" type="number" min="0" name="pro.stock" required="required"/>
 					</s:div>
-					<s:submit value="Listar" cssClass="btn btn-primary float-right" cssStyle="margin-top: 20px;"/>					
+					<s:submit value="Listar" name="btn" cssClass="btn btn-primary float-right" cssStyle="margin-top: 20px; width: 120px;"/>	
+					<s:submit value="Generar PDF" name="btn" cssClass="btn btn-primary float-right" cssStyle="margin-top: 10px; width: 120px;"/>				
 				</s:form>
 				<br> <br> <br>
 				<p>${mensaje}</p>
@@ -139,7 +140,6 @@
 							<th>Categoria</th>
 							<th>Stock</th>
 							<th>Precio</th>
-							<th>Estado</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -150,9 +150,9 @@
 								<td><s:property value="idProd" /></td>
 								<td><s:property value="nomProd" /></td>
 								<td><s:property value="descripcion" /></td>
-								<td><s:property value="idCategoria" /></td>
+								<td><s:property value="categoria" /></td>
 								<td><s:property value="stock" /></td>
-								<td style="color: red;">S/.<s:property value="precio" /></td>
+								<td style="color: red;">S/.<s:property value="precio" /></td>	
 								<td><a
 									href="buscarProd?p.idProd=<s:property value="idProd"/>"> <img
 										alt="editar" src="img/edit1.png" height=21px width=21px
