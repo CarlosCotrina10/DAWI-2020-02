@@ -12,6 +12,7 @@ import model.Categoria;
 import model.Producto;
 import servicios.ProductoService;
 import servicios.UsuarioService;
+import servicios.VentaService;
 
 @ParentPackage("dawi")
 public class ProductoAction extends ActionSupport {
@@ -79,6 +80,7 @@ public class ProductoAction extends ActionSupport {
 	@Action(value = "/buscarProd", results = { @Result(name = "ok", location = "/actualizarProducto.jsp") })
 	public String buscarProducto() {
 		p = new ProductoService().buscar(p.getIdProd());
+		lstCategoria = new ProductoService().listadoCategoria();
 		return "ok";
 	}
 
@@ -96,7 +98,7 @@ public class ProductoAction extends ActionSupport {
 		}
 		p.setEstado(-1);
 		System.out.println(p);
-		lstProducto = new ProductoService().listado(p);
+		lstProducto = new VentaService().listado(p);
 		lstCategoria = new ProductoService().listadoCategoria();
 		return "ok";
 	}

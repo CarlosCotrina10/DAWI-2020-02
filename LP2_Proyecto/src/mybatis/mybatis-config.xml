@@ -34,6 +34,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="mybatis/mapper/UsuarioMapper.xml" />
 		<mapper resource="mybatis/mapper/ReporteMapper.xml" />
 		<mapper resource="mybatis/mapper/VentaMapper.xml" />
+		<mapper resource="mybatis/mapper/CategoriaMapper.xml" />
 	</mappers>
 
 </configuration>

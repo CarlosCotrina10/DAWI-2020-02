@@ -10,7 +10,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Productos - Actualizar</title>
+<title>Categoria - Actualizar</title>
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="css/shop.css" rel="stylesheet">
 <link href="css/cart.css" rel="stylesheet">
@@ -75,7 +75,7 @@
 	</nav>
 	<section class="jumbotron text-center mb-0">
 		<div class="container">
-			<h1 class="jumbotron-heading">Actualizar Producto</h1>
+			<h1 class="jumbotron-heading">Actualizar Categoria</h1>
 		</div>
 	</section>
 	<nav class="navbar navbar-expand-lg navbar-dark fixed-top-2 mb-3"
@@ -125,56 +125,21 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<h5 class="my-4">Filtros</h5>
-				<s:form action="listadoProd" method="post" theme="bootstrap">
-					<s:url id="idCateg" action="listadoCat" />
-					<sj:select label="Categorias" href="%{idCateg}" list="lstCategoria"
-						listKey="idCategoria" listValue="descripcion" headerKey="-1"
-						headerValue="Todas" name="pro.idCategoria" cssClass="form-control" />
-					<s:select label="Estado"
-						list="#{'0':'Desactivado','1':'Activo' }"
-						name="pro.estado" cssClass="form-control" />
+				<s:form action="listadoCategoria" method="post" theme="bootstrap">
+					<s:select label="Tipo"
+						list="#{'0':'Sin Productos','1':'Con Productos' }"
+						name="tipoCat" cssClass="form-control" />
 					<s:submit value="Listar" cssClass="btn btn-primary float-right" />
 				</s:form>
 				<br> <br> <br>
-				<p>${mensaje}</p>
 			</div>
 			<div class="col-lg-9">
 				<br>
-				<s:form theme="bootstrap" action="crudProd" id="dsf">
-					<s:hidden name="p.idProd" />
-					<s:textfield label="Nombre: " name="p.nomProd"
-						placeholder="Ingrese nombre o descripcion del producto"
+				<s:form theme="bootstrap" action="actualizarCategoria" id="dsf">
+					<s:hidden name="c.idCategoria" />
+					<s:textfield label="Nombre: " name="c.descripcion"
+						placeholder="Ingrese nombre o descripcion de la categoria"
 						required="required" pattern="[A-Za-z1-9 ]{1,45}" />
-					<s:textarea label="Descripcion:" name="p.descripcion"
-						placeholder="Ingrese la descripcion del producto"
-						required="required" pattern="[A-Za-z1-9 ]{1,200}" rows="3" />
-					<s:div cssClass="row">
-						<s:div cssClass="col-md-6">
-
-							<s:url id="idCateg" action="listadoCat" />
-							<sj:select label="Categorias" href="%{idCateg}"
-								list="lstCategoria" listKey="idCategoria"
-								listValue="descripcion" headerKey="-1"
-								headerValue="Seleccione una Categoria" name="p.idCategoria"
-								cssClass="form-control" />
-
-						</s:div>
-						<s:div cssClass="col-md-6">
-							<s:select label="Estado"
-								list="#{'-1':'Seleccione un Estado','0':'Desactivado','1':'Activo' }"
-								name="p.estado" cssClass="form-control" />
-						</s:div>
-					</s:div>
-					<s:div cssClass="row">
-						<s:div cssClass="col-md-6">
-							<s:textfield label="Stock: " name="p.stock" placeholder="0"
-								required="required" type="number" />
-						</s:div>
-						<s:div cssClass="col-md-6">
-							<s:textfield label="Precio: " name="p.precio" placeholder="0.00"
-								required="required" type="number" min="1" step="any" />
-						</s:div>
-					</s:div>
 					<s:div cssClass="row">
 						<s:div cssClass="col-md-12">
 							<s:submit value="Actualizar" name="btn"

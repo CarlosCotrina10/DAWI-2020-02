@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.mapper.CategoriaMapper">
+	<insert id="registrar" parameterType="model.Categoria">
+		INSERT INTO tb_categorias VALUES (null, #{descripcion})
+	</insert>
+
+	<!-- Para: int actualizar(Producto p) -->
+	<update id="actualizar" parameterType="model.Producto">
+		UPDATE tb_categorias SET descripcion = #{descripcion}
+		WHERE idCategoria =  #{idCategoria}
+	</update>
+	
+	<select id="buscar" resultType="model.Categoria" parameterType="model.Categoria">
+		select * from tb_categorias where idCategoria = #{idCategoria}
+	</select>
+	
+	<delete id="eliminar" parameterType="model.Categoria">
+		delete from tb_categorias where idCategoria = #{idCategoria}
+	</delete>
+	
+	<select id="listadoSinProd" resultType="model.Categoria">
+		select distinct c.* from tb_categorias c
+		left join tb_productos p
+		on c.idCategoria = p.idCategoria
+		where p.idProd is null;
+	</select>
+	
+	<select id="listadoConProd" resultType="model.Categoria">
+		select distinct c.* from tb_categorias c
+		inner join tb_productos p
+		on c.idCategoria = p.idCategoria;
+	</select>
+</mapper>

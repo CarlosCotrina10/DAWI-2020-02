@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.session.SqlSession;
 import model.Boleta;
+import model.BoletaImpresa;
 import model.Producto;
 import mybatis.MyBatisUtil;
 import mybatis.mapper.VentaMapper;
@@ -60,6 +61,21 @@ public class VentaService implements VentaMapper{
 			session.close();
 		}
 		return codigo;
+	}
+
+	@Override
+	public ArrayList<BoletaImpresa> boletaImprimir() {
+		ArrayList<BoletaImpresa> listado = null;
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			VentaMapper pm = session.getMapper(VentaMapper.class);
+			listado = pm.boletaImprimir();
+		} catch (Exception e) {
+			System.out.println("Error al boletaImprimir: " + e.getMessage());
+		}finally {
+			session.close();
+		}
+		return listado;
 	}
 
 }

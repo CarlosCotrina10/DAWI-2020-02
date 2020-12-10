@@ -9,13 +9,19 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Productos - Actualizar</title>
+
+<title>Categorias - Listado</title>
+
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="css/shop.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/shop.css">
 <link href="css/cart.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 <s:head />
 <sj:head />
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
 	<s:if test="#session.usuario == null">
@@ -75,7 +81,7 @@
 	</nav>
 	<section class="jumbotron text-center mb-0">
 		<div class="container">
-			<h1 class="jumbotron-heading">Actualizar Producto</h1>
+			<h1 class="jumbotron-heading">Mantenimiento de Categorias</h1>
 		</div>
 	</section>
 	<nav class="navbar navbar-expand-lg navbar-dark fixed-top-2 mb-3"
@@ -125,65 +131,52 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<h5 class="my-4">Filtros</h5>
-				<s:form action="listadoProd" method="post" theme="bootstrap">
-					<s:url id="idCateg" action="listadoCat" />
-					<sj:select label="Categorias" href="%{idCateg}" list="lstCategoria"
-						listKey="idCategoria" listValue="descripcion" headerKey="-1"
-						headerValue="Todas" name="pro.idCategoria" cssClass="form-control" />
-					<s:select label="Estado"
-						list="#{'0':'Desactivado','1':'Activo' }"
-						name="pro.estado" cssClass="form-control" />
+				<s:form action="listadoCategoria" method="post" theme="bootstrap">
+					<s:select label="Tipo"
+						list="#{'0':'Sin Productos','1':'Con Productos' }"
+						name="tipoCat" cssClass="form-control" />
 					<s:submit value="Listar" cssClass="btn btn-primary float-right" />
 				</s:form>
 				<br> <br> <br>
-				<p>${mensaje}</p>
+				<s:actionerror theme="bootstrap"/>
+				<s:actionmessage theme="bootstrap"/>
 			</div>
 			<div class="col-lg-9">
 				<br>
-				<s:form theme="bootstrap" action="crudProd" id="dsf">
-					<s:hidden name="p.idProd" />
-					<s:textfield label="Nombre: " name="p.nomProd"
-						placeholder="Ingrese nombre o descripcion del producto"
-						required="required" pattern="[A-Za-z1-9 ]{1,45}" />
-					<s:textarea label="Descripcion:" name="p.descripcion"
-						placeholder="Ingrese la descripcion del producto"
-						required="required" pattern="[A-Za-z1-9 ]{1,200}" rows="3" />
-					<s:div cssClass="row">
-						<s:div cssClass="col-md-6">
+				<table id="table" class="table table-hover">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Nombre</th>
+							<th></th>
+							<s:if test="tipoCat == 0">
+							<th></th>
+							</s:if>
+						</tr>
+					</thead>
 
-							<s:url id="idCateg" action="listadoCat" />
-							<sj:select label="Categorias" href="%{idCateg}"
-								list="lstCategoria" listKey="idCategoria"
-								listValue="descripcion" headerKey="-1"
-								headerValue="Seleccione una Categoria" name="p.idCategoria"
-								cssClass="form-control" />
-
-						</s:div>
-						<s:div cssClass="col-md-6">
-							<s:select label="Estado"
-								list="#{'-1':'Seleccione un Estado','0':'Desactivado','1':'Activo' }"
-								name="p.estado" cssClass="form-control" />
-						</s:div>
-					</s:div>
-					<s:div cssClass="row">
-						<s:div cssClass="col-md-6">
-							<s:textfield label="Stock: " name="p.stock" placeholder="0"
-								required="required" type="number" />
-						</s:div>
-						<s:div cssClass="col-md-6">
-							<s:textfield label="Precio: " name="p.precio" placeholder="0.00"
-								required="required" type="number" min="1" step="any" />
-						</s:div>
-					</s:div>
-					<s:div cssClass="row">
-						<s:div cssClass="col-md-12">
-							<s:submit value="Actualizar" name="btn"
-								cssClass="btn btn-primary mb-3 float-right" />
-						</s:div>
-					</s:div>
-					<s:actionerror theme="bootstrap" />
-					<s:actionmessage theme="bootstrap" />
-				</s:form>
+					<tbody>
+						<s:iterator value="lstCategoria">
+							<tr class="grilla_campo">
+								<td><s:property value="idCategoria" /></td>
+								<td><s:property value="descripcion" /></td>
+								<td><a
+									href="buscarCategoria?c.idCategoria=<s:property value="idCategoria"/>"> <img
+										alt="editar" src="img/edit1.png" height=21px width=21px
+										title="Actualizar">
+								</a></td>
+								<s:if test="tipoCat == 0">
+									<td><a
+									href="eliminarCategoria?c.idCategoria=<s:property value="idCategoria"/>">
+										<img alt="editar" src="img/disable1.png" height=21px
+										width=21px title="Descativar">
+								</a></td>
+								</s:if>
+								
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
 				<br>
 			</div>
 		</div>
@@ -239,6 +232,11 @@
 			</div>
 		</div>
 	</footer>
-	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
+<script>
+	$(document).ready(function() {
+		$('#table').DataTable();
+	});
+</script>
+
 </html>

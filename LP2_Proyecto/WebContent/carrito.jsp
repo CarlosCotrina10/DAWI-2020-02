@@ -138,15 +138,20 @@
 							<a href="index.jsp" class="btn btn-lg btn-block btn-light text-uppercase">Continuar comprando</a>
 						</div>
 						<div class="col-sm-12 col-md-6 text-right">
-							<a href="registroBoleta" class="btn btn-lg btn-block btn-success text-uppercase">Completar</a>
+							<s:if test="compraExitosa == 1">
+								<a href="boletaPDF" class="btn btn-lg btn-block btn-success text-uppercase">Imprimir Boleta</a>
+							</s:if>
+							<s:else>
+								<a href="registroBoleta" class="btn btn-lg btn-block btn-success text-uppercase">Completar</a>
+							</s:else>
 						</div>
 					</div>
 				</div>
 			</div>
 		</form>
 		<div style="text-align: center;">
-			<s:actionerror/>
-			<s:actionmessage/>
+			<s:actionerror theme="bootstrap"/>
+			<s:actionmessage theme="bootstrap"/>
 		</div>		
 	</div>
 

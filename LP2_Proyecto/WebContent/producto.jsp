@@ -93,9 +93,22 @@
 			<div class="col-lg-3" id="test">
 
 				<h5 class="my-4">Categorias</h5>
-				<div class="list-group">
-					<%-- 					<ct:llenaTienda value="${p.idcategoria}"></ct:llenaTienda> --%>
-				</div>
+				<s:div cssClass="list-group">
+						<s:if test="p.idCategoria == -1">
+							<a href="cargarProdTienda?p.idCategoria=-1" class="list-group-item active"> Todo </a>
+						</s:if>
+						<s:else>
+							<a href="cargarProdTienda?p.idCategoria=-1" class="list-group-item"> Todo </a>
+						</s:else>
+					<s:iterator value="lstCategoria">
+						<s:if test="p.idCategoria == idCategoria">
+							<a href="cargarProdTienda?p.idCategoria=<s:property value="idCategoria"/>" class="list-group-item active"> <s:property value="descripcion"/> </a>
+						</s:if>						
+						<s:else>
+							<a href="cargarProdTienda?p.idCategoria=<s:property value="idCategoria"/>" class="list-group-item"> <s:property value="descripcion"/> </a>
+						</s:else>
+					</s:iterator>						
+				</s:div>
 
 			</div>
 			<div class="col-lg-9">
@@ -130,6 +143,7 @@
 								<s:hidden name="p.idProd"/>
 								<s:hidden name="p.precio"/>
 								<s:hidden name="p.nomProd"/>
+								<s:hidden name="p.stock"/>
 								<input type="number" value="1" min="1"
 									max="<s:property value="p.stock"/>" step="1" name="cantidad"
 									class="form-control float-left col-lg-1 text-center" />

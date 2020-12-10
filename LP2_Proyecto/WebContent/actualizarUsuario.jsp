@@ -106,6 +106,18 @@
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="registrarUsuario.jsp">Registrar</a>
 					</div></li>
+				<li class="nav-item dropdown pl-0"><a
+					class="nav-link dropdown-toggle pl-0 pr-5" href="#"
+					id="navbarDropdown" role="button" data-toggle="dropdown"
+					aria-haspopup="true" aria-expanded="false"> <span
+						class="pl-0 h6">CATEGORIAS</span>
+				</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item"
+							href="listadoCategoria?tipoCat=1">Listar</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="registrarCategoria.jsp">Registrar</a>
+					</div></li>
 			</ul>
 		</div>
 	</nav>

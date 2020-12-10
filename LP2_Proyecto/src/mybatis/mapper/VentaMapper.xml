@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- public ArrayList<Producto> listado(Producto p); -->
 	<select id="listado" parameterType="model.Producto" resultType="model.Producto">
-		select * from tb_productos where 1 = 1
+		select * from tb_productos where estado = 1 and stock > 0
 		<if test="idCategoria != -1">
 			and idCategoria = #{idCategoria}
 		</if>
@@ -26,5 +26,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 	public String generaNumBoleta(); -->
 	<select id="generaNumBoleta" resultType="String" statementType="CALLABLE">
 		SELECT UF_generatePKBoleta();
+	</select>
+	
+	<select id="boletaImprimir" resultType="model.BoletaImpresa">
+		SELECT b.numBoleta, DATE_FORMAT(b.fecha, '%d-%m-%Y') as fecha, b.total, d.idprod,
+		    d.cantidad, (d.preciovta*d.cantidad) as importe, d.preciovta as precioUnitario, p.nomProd, CONCAT(u.nombre,' ',u.apellido) as nombre 
+		FROM tb_detalle_boleta d
+		INNER JOIN tb_boleta b
+		ON b.numBoleta = d.numBoleta
+		INNER JOIN tb_productos p 
+		ON d.idprod = p.idprod
+		INNER JOIN tb_usuarios u
+		ON u.codUsuario = b.codUsuario
+		WHERE d.numBoleta = (SELECT MAX(numBoleta) from tb_boleta)
 	</select>
 </mapper>
