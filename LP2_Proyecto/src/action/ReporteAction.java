@@ -8,8 +8,8 @@ import org.apache.struts2.convention.annotation.Result;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import beans.ProductoDTO;
 import model.Parametro;
+import model.ProductoCategoria;
 import model.VentaMes;
 import model.VentasProductos;
 import servicios.ReporteService;
@@ -19,8 +19,8 @@ public class ReporteAction  extends  ActionSupport{
 	
 	private ArrayList<VentaMes> lstVentaMes;
 	private ArrayList<VentasProductos> lstVentaProducto;
-	private ArrayList<ProductoDTO> lstProducto;
-	private ProductoDTO pro;
+	private ArrayList<ProductoCategoria> lstProducto;
+	private ProductoCategoria pro;
 	private Parametro p;
 	private String btn;
 	
@@ -104,19 +104,19 @@ public class ReporteAction  extends  ActionSupport{
 		this.p = p;
 	}
 
-	public ArrayList<ProductoDTO> getLstProducto() {
+	public ArrayList<ProductoCategoria> getLstProducto() {
 		return lstProducto;
 	}
 
-	public void setLstProducto(ArrayList<ProductoDTO> lstProducto) {
+	public void setLstProducto(ArrayList<ProductoCategoria> lstProducto) {
 		this.lstProducto = lstProducto;
 	}
 
-	public ProductoDTO getPro() {
+	public ProductoCategoria getPro() {
 		return pro;
 	}
 
-	public void setPro(ProductoDTO pro) {
+	public void setPro(ProductoCategoria pro) {
 		this.pro = pro;
 	}
 

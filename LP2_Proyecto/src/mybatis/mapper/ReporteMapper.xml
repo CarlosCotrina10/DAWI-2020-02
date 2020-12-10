@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="mybatis.mapper.ReporteMapper">
 
 <!-- 	public ArrayList<ProductoDTO> listaStock(ProductoDTO p); -->	
-	<select id="listaStock" parameterType="beans.ProductoDTO" resultType="beans.ProductoDTO" statementType="CALLABLE">	
+	<select id="listaStock" parameterType="model.ProductoCategoria" resultType="model.ProductoCategoria" statementType="CALLABLE">	
 		CALL sp_listarStock(#{stock});
 	</select>
 <!-- 	public ArrayList<VentasMes> listadoVentasMes(Parametro p); -->

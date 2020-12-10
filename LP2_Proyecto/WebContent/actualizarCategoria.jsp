@@ -82,7 +82,7 @@
 		style="background-color: #343a40;">
 		<div class="container">
 			<ul class="navbar-nav pl-0">
-				<li class="nav-item dropdown active pl-0"><a
+				<li class="nav-item dropdown pl-0"><a
 					class="nav-link dropdown-toggle pl-0 pr-5" href="#"
 					id="navbarDropdown" role="button" data-toggle="dropdown"
 					aria-haspopup="true" aria-expanded="false"> <span
@@ -106,7 +106,7 @@
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="registrarUsuario.jsp">Registrar</a>
 					</div></li>
-				<li class="nav-item dropdown pl-0"><a
+				<li class="nav-item dropdown active pl-0"><a
 					class="nav-link dropdown-toggle pl-0 pr-5" href="#"
 					id="navbarDropdown" role="button" data-toggle="dropdown"
 					aria-haspopup="true" aria-expanded="false"> <span

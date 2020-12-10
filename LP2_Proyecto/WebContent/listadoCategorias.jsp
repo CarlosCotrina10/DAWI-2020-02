@@ -88,7 +88,7 @@
 		style="background-color: #343a40;">
 		<div class="container">
 			<ul class="navbar-nav pl-0">
-				<li class="nav-item dropdown active pl-0"><a
+				<li class="nav-item dropdown pl-0"><a
 					class="nav-link dropdown-toggle pl-0 pr-5" href="#"
 					id="navbarDropdown" role="button" data-toggle="dropdown"
 					aria-haspopup="true" aria-expanded="false"> <span
@@ -112,7 +112,7 @@
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="registrarUsuario.jsp">Registrar</a>
 					</div></li>
-				<li class="nav-item dropdown pl-0"><a
+				<li class="nav-item dropdown active pl-0"><a
 					class="nav-link dropdown-toggle pl-0 pr-5" href="#"
 					id="navbarDropdown" role="button" data-toggle="dropdown"
 					aria-haspopup="true" aria-expanded="false"> <span
@@ -168,7 +168,7 @@
 								<s:if test="tipoCat == 0">
 									<td><a
 									href="eliminarCategoria?c.idCategoria=<s:property value="idCategoria"/>">
-										<img alt="editar" src="img/disable1.png" height=21px
+										<img alt="editar" src="img/eliminar.png" height=21px
 										width=21px title="Descativar">
 								</a></td>
 								</s:if>

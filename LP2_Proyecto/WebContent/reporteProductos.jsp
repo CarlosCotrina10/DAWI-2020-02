@@ -129,9 +129,9 @@
 					<thead>
 						<tr>
 							<th class="text-right">Id</th>
-							<th class="text-right">Nombre</th>
-							<th class="text-right">Stock</th>
-							<th class="text-right">Categoria</th>
+							<th>Nombre</th>
+							<th>Stock</th>
+							<th>Categoria</th>
 							<th class="text-right">Cantidad vendidos</th>
 							<th class="text-right">Estado</th>
 							<th class="text-right">Total</th>
@@ -142,9 +142,9 @@
 						<s:iterator value="lstVentaProducto">
 							<tr class="grilla_campo">
 								<td class="text-right"> <s:property value="idprod"/> </td>
-								<td class="text-right"><s:property value="nombre"/></td>
-								<td class="text-right"><s:property value="stock"/></td>
-								<td class="text-right"><s:property value="categoria"/></td>
+								<td><s:property value="nombre"/></td>
+								<td><s:property value="stock"/></td>
+								<td><s:property value="categoria"/></td>
 								<td class="text-right"><s:property value="cantidad"/></td>
 								<td class="text-right"><s:property value="estado"/></td>
 								<td class="text-right">S/.<s:property value="total"/></td>

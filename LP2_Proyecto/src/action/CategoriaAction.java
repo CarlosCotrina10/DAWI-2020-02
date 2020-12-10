@@ -54,6 +54,11 @@ public class CategoriaAction extends ActionSupport {
 	public String eliminarCat() {
 		int ok = 0;
 		ok = new CategoriasService().eliminar(c);
+		if(tipoCat==1) {
+			lstCategoria = new CategoriasService().listadoConProd();
+		} else {
+			lstCategoria = new CategoriasService().listadoSinProd();
+		}
 		if (ok == 0)
 			addActionError("Error al Eliminar");
 		else

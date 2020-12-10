@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.session.SqlSession;
 
-import beans.ProductoDTO;
 import model.Parametro;
 import model.Producto;
+import model.ProductoCategoria;
 import model.VentaMes;
 import model.VentasProductos;
 import mybatis.MyBatisUtil;
@@ -15,8 +15,8 @@ import mybatis.mapper.ReporteMapper;
 public class ReporteService implements ReporteMapper{
 
 	@Override
-	public ArrayList<ProductoDTO> listaStock(ProductoDTO p) {
-		ArrayList<ProductoDTO> listado = null;
+	public ArrayList<ProductoCategoria> listaStock(ProductoCategoria p) {
+		ArrayList<ProductoCategoria> listado = null;
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		try {
 			ReporteMapper pm = session.getMapper(ReporteMapper.class);
