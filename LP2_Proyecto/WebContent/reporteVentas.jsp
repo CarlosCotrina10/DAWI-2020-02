@@ -117,7 +117,8 @@
 					<s:submit value="Generar PDF" name="btn" cssClass="btn btn-primary float-right" cssStyle="margin-top: 10px; width: 120px;"/>
 				</s:form>
 				<br> <br> <br>
-				<p>${mensaje}</p>
+				<s:actionerror theme="bootstrap" />
+				<s:actionmessage theme="bootstrap" />
 			</div>
 			<div class="col-lg-9">
 				<br>

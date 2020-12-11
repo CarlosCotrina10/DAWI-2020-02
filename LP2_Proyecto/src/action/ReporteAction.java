@@ -28,6 +28,10 @@ public class ReporteAction  extends  ActionSupport{
 			@Result(name = "pdf", type = "jasper",params = {"location","/reportes/reporteVentaMes.jasper","dataSource","lstVentaMes","format","PDF",} )})
 	public String ventasMes() {
 		lstVentaMes = new ReporteService().listadoVentasMes(p);
+		if (lstVentaMes.isEmpty()) {
+			addActionError("Lista vacía");
+			return "ok";
+		}
 		switch (btn) {
 		case "Listar":
 			return "ok";
@@ -42,6 +46,10 @@ public class ReporteAction  extends  ActionSupport{
 		@Result(name = "pdf", type = "jasper",params = {"location","/reportes/reporteVentaProducto.jasper","dataSource","lstVentaProducto","format","PDF",} )})
 	public String ventasProducto() {
 		lstVentaProducto = new ReporteService().listadoVentaProductos(p);
+		if (lstVentaProducto.isEmpty()) {
+			addActionError("Lista vacía");
+			return "ok";
+		}
 		switch (btn) {
 		case "Listar":
 			return "ok";
@@ -56,6 +64,10 @@ public class ReporteAction  extends  ActionSupport{
 		@Result(name = "pdf", type = "jasper",params = {"location","/reportes/reporteStock.jasper","dataSource","lstProducto","format","PDF",} )})
 	public String stockProducto() {
 		lstProducto = new ReporteService().listaStock(pro);
+		if (lstProducto.isEmpty()) {
+			addActionError("Lista vacía");
+			return "ok";
+		}
 		switch (btn) {
 		case "Listar":
 			return "ok";
