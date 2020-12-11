@@ -108,10 +108,10 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<h5 class="my-4">Filtros</h5>	
-				<s:form action="ventaMes" method="post" cssStyle="width: 100%">
+				<s:form  action="ventaMes" method="post" cssStyle="width: 100%" >
 					<s:div cssClass="form-group clearfix">
 						<s:textfield label="Año " cssClass="form-control col-lg-10 text-center float-right" 
-						labelposition="left" type="number" min="2000" max="2100" name="p.anio" required="required"/>
+						labelposition="left"  type="number" min="2000" max="2100" name="p.anio" required="required"/>
 					</s:div>
 					<s:submit value="Listar" name="btn" cssClass="btn btn-primary float-right" cssStyle="margin-top: 20px; width: 120px;"/>					
 					<s:submit value="Generar PDF" name="btn" cssClass="btn btn-primary float-right" cssStyle="margin-top: 10px; width: 120px;"/>

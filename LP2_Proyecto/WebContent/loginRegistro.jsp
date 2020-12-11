@@ -130,7 +130,7 @@ body {
 						<s:hidden name="estadoReg" value="1"/>
 						<div class="group">
 							<label for="user" class="label">Nombre</label> 
-							<s:textfield id="nombre" name="u.nombre" required="required" pattern="[A-Za-z]{1,15}"
+							<s:textfield id="nombre" name="u.nombre" required="required" pattern="[A-Za-z ]{1,15}"
 								cssClass="input"/>
 						</div>
 						<div class="group">
@@ -143,7 +143,7 @@ body {
 							<s:url id="idDistrito" action="listadoDistrito" />
 							<sj:select label="Distrito" href="%{idDistrito}"
 								name="u.codDistrito" list="lstDistrito" listKey="codDistrito"
-								listValue="nomDistrito" headerKey="-1"
+								listValue="nomDistrito" headerKey=""
 								headerValue="Seleccionar Distrito" cssClass="input" />
 						</div>
 						<div class="group">

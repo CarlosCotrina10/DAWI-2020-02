@@ -41,12 +41,16 @@ public class ProductoAction extends ActionSupport {
 
 		switch (btn) {
 		case "Registrar":
-			ok = new ProductoService().registrar(p);
+			if(p.getIdCategoria()!=-1) {
+				ok = new ProductoService().registrar(p);				
+				if (ok == 0)
+					error = "Error al Registrar";
+				else
+					message = "Registro exitoso";
+			}else {
+				error = "Ingrese Categoria";
+			}
 			salida = "okR";
-			if (ok == 0)
-				error = "Error al Registrar";
-			else
-				message = "Registro exitoso";
 			break;
 		case "Actualizar":
 			ok = new ProductoService().actualizar(p);

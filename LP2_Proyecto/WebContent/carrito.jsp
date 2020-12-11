@@ -139,7 +139,7 @@
 						</div>
 						<div class="col-sm-12 col-md-6 text-right">
 							<s:if test="compraExitosa == 1">
-								<a href="boletaPDF" class="btn btn-lg btn-block btn-success text-uppercase">Imprimir Boleta</a>
+								<a href="boletaPDF" target="_blank" class="btn btn-lg btn-block btn-success text-uppercase">Imprimir Boleta</a>
 							</s:if>
 							<s:else>
 								<a href="registroBoleta" class="btn btn-lg btn-block btn-success text-uppercase">Completar</a>

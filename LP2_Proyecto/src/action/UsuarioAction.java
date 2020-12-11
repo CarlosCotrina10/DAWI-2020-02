@@ -67,13 +67,21 @@ public class UsuarioAction extends ActionSupport{
 		
 		switch (btn) {
 		case "Registrar":
-			ok = new UsuarioService().registrar(u);
+			if(u.getCodDistrito()!=-1) {
+				if(u.getIdTipo()!=-1) {
+					ok = new UsuarioService().registrar(u);					
+					if(ok == 0)
+						error= "Error al Registrar";
+					else
+						message = "Registro exitoso";
+					
+				}else {
+					error= "Ingrese el Tipo de Usuario";
+				}
+			}else {
+				error= "Ingrese un Distrito";
+			}			
 			salida = "okR";
-			
-			if(ok == 0)
-				error= "Error al Registrar";
-			else
-				message = "Registro exitoso";
 			if(estadoReg == 1) {
 				salida = "okRCli";
 				message = "Usuario "+ u.getUsuario() +" registrado";
