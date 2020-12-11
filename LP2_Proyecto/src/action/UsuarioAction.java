@@ -88,12 +88,20 @@ public class UsuarioAction extends ActionSupport{
 			}
 			break;
 		case "Actualizar":
-			ok = new UsuarioService().actualizar(u);
-			salida = "okA";
-			if(ok == 0)
-				error= "Error al Actualizar";
-			else
-				message = "Actualizacion exitoso";
+			if(u.getCodDistrito()!=-1) {
+				if(u.getIdTipo()!=-1) {
+					ok = new UsuarioService().actualizar(u);
+					if(ok == 0)
+						error= "Error al Actualizar";
+					else
+						message = "Actualizacion exitoso";
+				}else {
+					error= "Ingrese el Tipo de Usuario";
+				}
+			}else {
+				error= "Ingrese un Distrito";
+			}			
+			salida = "okA";			
 			break;
 		case "Eliminar":
 			ok = new UsuarioService().cambiarEstado(u);

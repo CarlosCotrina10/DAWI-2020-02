@@ -161,13 +161,13 @@
 						</s:div>
 						<s:div cssClass="col-md-6">
 							<s:select label="Estado"
-								list="#{'-1':'Seleccione un Estado','0':'Desactivado','1':'Activo' }"
+								list="#{'0':'Desactivado','1':'Activo' }"
 								name="p.estado" cssClass="form-control" />
 						</s:div>
 					</s:div>
 					<s:div cssClass="row">
 						<s:div cssClass="col-md-6">
-							<s:textfield label="Stock: " name="p.stock" placeholder="0"
+							<s:textfield label="Stock: " min="1" name="p.stock" placeholder="0"
 								required="required" type="number" />
 						</s:div>
 						<s:div cssClass="col-md-6">

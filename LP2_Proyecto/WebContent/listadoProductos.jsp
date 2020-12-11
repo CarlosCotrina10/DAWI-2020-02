@@ -137,7 +137,7 @@
 						listKey="idCategoria" listValue="descripcion" headerKey="-1"
 						headerValue="Todas" name="pro.idCategoria" cssClass="form-control" />
 					<s:select label="Estado"
-						list="#{'0':'Desactivado','1':'Activo' }"
+						list="#{'0':'Desactivado','1':'Activado' }"
 						name="pro.estado" cssClass="form-control" />
 					<s:submit value="Listar" cssClass="btn btn-primary float-right" />
 				</s:form>

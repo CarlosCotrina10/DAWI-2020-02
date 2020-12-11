@@ -185,7 +185,7 @@
 						</s:div>
 						<s:div cssClass="col-md-6">
 							<s:select label="Estado"
-								list="#{'-1':'Seleccione un Estado','0':'Inactivo','1':'Activo' }"
+								list="#{'0':'Inactivo','1':'Activo' }"
 								name="u.estado" cssClass="form-control" />
 						</s:div>
 					</s:div>
