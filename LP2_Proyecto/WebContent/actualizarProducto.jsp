@@ -21,6 +21,7 @@
 	<s:if test="#session.usuario == null">
 		<s:action name="principal" executeResult="true"/>
 	</s:if>
+	<s:else>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
 		<div class="container">
 			<a class="navbar-brand py-0 my-0 by-0 h1"
@@ -240,5 +241,6 @@
 		</div>
 	</footer>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	</s:else>
 </body>
 </html>
